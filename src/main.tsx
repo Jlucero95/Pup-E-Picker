@@ -11,27 +11,27 @@ import { Toaster } from "react-hot-toast";
 import { Playground } from "./Playground.tsx";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/functional",
-    element: <FunctionalApp />,
-  },
-  {
-    path: "/class",
-    element: <ClassApp />,
-  },
-  {
-    path: "/playground",
-    element: <Playground />,
-  },
+	{
+		path: "/",
+		element: <Home />,
+	},
+	{
+		path: "/functional",
+		element: <FunctionalApp />,
+	},
+	{
+		path: "/class",
+		element: <ClassApp />,
+	},
+	{
+		path: "/playground",
+		element: <Playground />,
+	},
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <Toaster />
-    <RouterProvider router={router} />
-  </React.StrictMode>
+	<React.StrictMode>
+		<Toaster />
+		<RouterProvider router={router} />
+	</React.StrictMode>
 );
