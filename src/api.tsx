@@ -14,17 +14,17 @@ export const Requests = {
 	// should delete a dog from the database
 	deleteDog: () => {},
 
-	updateDog: ({
-		dog,
-		endpoint,
-		favBoolean,
-	}: {
-		dog: Dog;
-		endpoint: string;
-		favBoolean: boolean;
-	}) => {
-		if (dog.isFavorite === favBoolean) {
-			fetch(`${baseUrl}/${endpoint}`, {
+	updateDog: ({ dog }: { dog: Dog }) => {
+		if (dog.isFavorite) {
+			fetch(`${baseUrl}/favorited`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ dog }),
+			}).then((data) => data.json);
+		} else {
+			fetch(`${baseUrl}/unfavorited`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
