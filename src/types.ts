@@ -1,5 +1,5 @@
 export type Dog = {
-	id: number;
+	id: string;
 	image: string;
 	description: string;
 	isFavorite: boolean;

@@ -28,13 +28,8 @@ export const FunctionalSection = () => {
 						count={12}
 						onClick={() => {
 							setIsFavActive("active");
-							if (
-								isUnFavActive === "active" ||
-								isCreateDogActive === "active"
-							) {
-								setIsCreateDogActive("");
-								setIsUnFavActive("");
-							}
+							setIsCreateDogActive("");
+							setIsUnFavActive("");
 							if (isFavActive === "active") setIsFavActive("");
 						}}
 					/>
@@ -45,10 +40,8 @@ export const FunctionalSection = () => {
 						count={25}
 						onClick={() => {
 							setIsUnFavActive("active");
-							if (isFavActive === "active" || isCreateDogActive === "active") {
-								setIsCreateDogActive("");
-								setIsFavActive("");
-							}
+							setIsCreateDogActive("");
+							setIsFavActive("");
 							if (isUnFavActive === "active") setIsUnFavActive("");
 						}}
 					/>
@@ -56,10 +49,8 @@ export const FunctionalSection = () => {
 						className={`selector ${isCreateDogActive}`}
 						onClick={() => {
 							setIsCreateDogActive("active");
-							if (isUnFavActive === "active" || isFavActive === "active") {
-								setIsFavActive("");
-								setIsUnFavActive("");
-							}
+							setIsFavActive("");
+							setIsUnFavActive("");
 							if (isCreateDogActive === "active") setIsCreateDogActive("");
 						}}
 					>

@@ -6,7 +6,6 @@ import { Requests } from "../api";
 // Right now these dogs are constant, but in reality we should be getting these from our server✅
 export const FunctionalDogs = () => {
 	const [allDogs, setAllDogs] = useState<Dog[]>([]);
-
 	useEffect(() => {
 		Requests.getAllDogs().then(setAllDogs);
 	}, []);
@@ -16,6 +15,13 @@ export const FunctionalDogs = () => {
 		// without adding an actual html element
 		<>
 			{allDogs.map((dog) => {
+				{
+					Requests.updateDog({
+						dog: dog,
+						endpoint: "favorited",
+						favBoolean: dog.isFavorite,
+					});
+				}
 				return (
 					<DogCard
 						dog={{
@@ -30,10 +36,18 @@ export const FunctionalDogs = () => {
 							alert("clicked trash");
 						}}
 						onHeartClick={() => {
-							alert("clicked heart");
+							Requests.updateDog({
+								dog: dog,
+								endpoint: "favorited",
+								favBoolean: dog.isFavorite,
+							});
 						}}
 						onEmptyHeartClick={() => {
-							alert("clicked empty heart");
+							Requests.updateDog({
+								dog: dog,
+								endpoint: "unfavorited",
+								favBoolean: dog.isFavorite,
+							});
 						}}
 						isLoading={false}
 					/>
