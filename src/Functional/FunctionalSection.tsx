@@ -20,7 +20,7 @@ export const FunctionalSection = () => {
 					{/* This should display the favorited count */}
 					<SectionSelector
 						section="favorited"
-						activeClass="active"
+						activeClass=""
 						count={12}
 					/>
 					{/* This should display the unfavorited count */}

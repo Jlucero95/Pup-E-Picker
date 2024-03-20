@@ -1,7 +1,7 @@
 import { dogPictures } from "../dog-pictures";
 
 // use this as your default selected image
-const defaultSelectedImage = dogPictures.BlueHeeler;
+// const defaultSelectedImage = dogPictures.BlueHeeler;
 
 export const FunctionalCreateDogForm = () => {
   return (
