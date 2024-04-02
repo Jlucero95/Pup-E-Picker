@@ -4,7 +4,6 @@ import { FunctionalDogs } from "./FunctionalDogs";
 import { FunctionalCreateDogForm } from "./FunctionalCreateDogForm";
 import { SectionSelector } from "../Shared/Selectors";
 import { useState } from "react";
-import { baseUrl } from "../api";
 
 export const FunctionalSection = () => {
 	const [isFavActive, setIsFavActive] = useState("");
@@ -26,7 +25,7 @@ export const FunctionalSection = () => {
 					<SectionSelector
 						section="favorited"
 						activeClass={isFavActive}
-						count={`${baseUrl}/favorited`.length}
+						count={3}
 						onClick={() => {
 							setIsFavActive("active");
 							setIsCreateDogActive("");
@@ -38,7 +37,7 @@ export const FunctionalSection = () => {
 					<SectionSelector
 						section="unfavorited"
 						activeClass={isUnFavActive}
-						count={`${baseUrl}/unfavorited`.length}
+						count={3}
 						onClick={() => {
 							setIsUnFavActive("active");
 							setIsCreateDogActive("");

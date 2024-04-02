@@ -1,107 +1,56 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { useEffect, useState } from "react";
-import { DogCard } from "../Shared/DogCard";
 import { Dog } from "../types";
 import { Requests } from "../api";
+import { ShowSelectedDogs } from "./ShowSelectedDogs";
 
 // Right now these dogs are constant, but in reality we should be getting these from our server✅
 export const FunctionalDogs = ({
 	isFavActive,
 	isUnFavActive,
-}: {
+}: // favDogsProp,
+// unFavDogsProp,
+{
 	isFavActive: string;
 	isUnFavActive: string;
+	// favDogsProp: Dog[];
+	// unFavDogsProp: Dog[];
 }) => {
 	const [allDogs, setAllDogs] = useState<Dog[]>([]);
 	const [favDogs, setFavDogs] = useState<Dog[]>([]);
 	const [unFavDogs, setUnFavDogs] = useState<Dog[]>([]);
 
 	useEffect(() => {
-		Requests.getAllDogs({ endpoint: "dogs" }).then((dog) => {
-			setAllDogs(dog);
-		});
-		Requests.getAllDogs({ endpoint: "favorited" }).then((dog) => {
-			setFavDogs(dog);
-		});
-		Requests.getAllDogs({ endpoint: "unfavorited" }).then((dog) => {
-			setUnFavDogs(dog);
-		});
+		const favArr: Dog[] = [];
+		const unFavArr: Dog[] = [];
+		Requests.getAllDogs()
+			.then((dogs: Dog[]) => {
+				setAllDogs(dogs);
+				dogs.map((dog: Dog) => {
+					if (dog.isFavorite && !favArr.includes(dog)) {
+						favArr.push(dog);
+						setFavDogs(favArr);
+					} else if (!dog.isFavorite && !unFavArr.includes(dog)) {
+						unFavArr.push(dog);
+						setUnFavDogs(unFavArr);
+					}
+				});
+			})
+			.then(() => {
+				console.log(favDogs, unFavDogs);
+			});
 	}, []);
+
 	return (
-		//  the "<> </>"" are called react fragments, it's like adding all the html inside
-		// without adding an actual html element
 		<>
 			{isFavActive !== "active" && isUnFavActive !== "active"
-				? allDogs.map((dog: Dog) => (
-						<DogCard
-							dog={{
-								id: dog.id,
-								image: dog.image,
-								description: dog.description,
-								isFavorite: dog.isFavorite,
-								name: dog.name,
-							}}
-							key={dog.id}
-							onTrashIconClick={() => {
-								alert("clicked trash");
-							}}
-							onHeartClick={() => {
-								Requests.updateDog({ dog: dog });
-							}}
-							onEmptyHeartClick={() => {
-								Requests.updateDog({ dog: dog });
-							}}
-							isLoading={false}
-						/>
-				  ))
+				? ShowSelectedDogs({ dogs: allDogs })
 				: null}
 			{isFavActive === "active" && isUnFavActive === ""
-				? favDogs.map((dog: Dog) => (
-						<DogCard
-							dog={{
-								id: dog.id,
-								image: dog.image,
-								description: dog.description,
-								isFavorite: dog.isFavorite,
-								name: dog.name,
-							}}
-							key={dog.id}
-							onTrashIconClick={() => {
-								alert("clicked trash");
-							}}
-							onHeartClick={() => {
-								Requests.updateDog({ dog: dog });
-							}}
-							onEmptyHeartClick={() => {
-								Requests.updateDog({ dog: dog });
-							}}
-							isLoading={false}
-						/>
-				  ))
+				? ShowSelectedDogs({ dogs: favDogs })
 				: null}
 			{isUnFavActive === "active" && isFavActive === ""
-				? unFavDogs.map((dog: Dog) => (
-						<DogCard
-							dog={{
-								id: dog.id,
-								image: dog.image,
-								description: dog.description,
-								isFavorite: dog.isFavorite,
-								name: dog.name,
-							}}
-							key={dog.id}
-							onTrashIconClick={() => {
-								alert("clicked trash");
-							}}
-							onHeartClick={() => {
-								Requests.updateDog({ dog: dog });
-							}}
-							onEmptyHeartClick={() => {
-								Requests.updateDog({ dog: dog });
-							}}
-							isLoading={false}
-						/>
-				  ))
+				? ShowSelectedDogs({ dogs: unFavDogs })
 				: null}
 		</>
 	);

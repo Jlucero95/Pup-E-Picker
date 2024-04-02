@@ -4,8 +4,8 @@ export const baseUrl = "http://localhost:3000";
 
 export const Requests = {
 	// should return a promise with all dogs in the database✅
-	getAllDogs: ({endpoint} : {endpoint : string}): Promise<Dog[]> =>
-		fetch(`${baseUrl}/${endpoint}`).then((response) => response.json()),
+	getAllDogs: (): Promise<Dog[]> =>
+		fetch(`${baseUrl}/dogs`).then((dog) => dog.json()),
 
 	// should create a dog in the database from a partial dog object
 	// and return a promise with the result
@@ -14,28 +14,8 @@ export const Requests = {
 	// should delete a dog from the database
 	deleteDog: () => {},
 
-	updateDog: ({ dog }: { dog: Dog }) => {
-		if (dog.isFavorite) {
-			fetch(`${baseUrl}/favorited`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(dog),
-			}).then((data) => data.json);
-		} else {
-			fetch(`${baseUrl}/unfavorited`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(dog),
-			}).then((data) => data.json);
-		}
-	},
+	updateDog: () => {},
 
 	// Just a dummy function for use in the playground
-	dummyFunction: () => {
-		console.log("dummy stuff");
-	},
+	dummyFunction: () => {},
 };
