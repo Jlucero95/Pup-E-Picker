@@ -9,6 +9,8 @@ export const FunctionalSection = () => {
 	const [isFavActive, setIsFavActive] = useState("");
 	const [isUnFavActive, setIsUnFavActive] = useState("");
 	const [isCreateDogActive, setIsCreateDogActive] = useState("");
+	const [favDogCount, setFavDogCount] = useState(0);
+	const [unFavDogCount, setUnFavDogCount] = useState(0);
 
 	return (
 		<section id="main-section">
@@ -25,7 +27,7 @@ export const FunctionalSection = () => {
 					<SectionSelector
 						section="favorited"
 						activeClass={isFavActive}
-						count={3}
+						count={favDogCount}
 						onClick={() => {
 							setIsFavActive("active");
 							setIsCreateDogActive("");
@@ -37,7 +39,7 @@ export const FunctionalSection = () => {
 					<SectionSelector
 						section="unfavorited"
 						activeClass={isUnFavActive}
-						count={3}
+						count={unFavDogCount}
 						onClick={() => {
 							setIsUnFavActive("active");
 							setIsCreateDogActive("");
@@ -63,6 +65,8 @@ export const FunctionalSection = () => {
 					<FunctionalDogs
 						isFavActive={isFavActive}
 						isUnFavActive={isUnFavActive}
+						favDogCount={setFavDogCount}
+						unFavDogCount={setUnFavDogCount}
 					/>
 				) : null}
 				{isCreateDogActive === "active" ? <FunctionalCreateDogForm /> : null}

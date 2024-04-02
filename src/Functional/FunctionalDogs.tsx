@@ -8,13 +8,13 @@ import { ShowSelectedDogs } from "./ShowSelectedDogs";
 export const FunctionalDogs = ({
 	isFavActive,
 	isUnFavActive,
-}: // favDogsProp,
-// unFavDogsProp,
-{
+	favDogCount,
+	unFavDogCount,
+}: {
 	isFavActive: string;
 	isUnFavActive: string;
-	// favDogsProp: Dog[];
-	// unFavDogsProp: Dog[];
+	favDogCount: (count: number) => void;
+	unFavDogCount: (count: number) => void;
 }) => {
 	const [allDogs, setAllDogs] = useState<Dog[]>([]);
 	const [favDogs, setFavDogs] = useState<Dog[]>([]);
@@ -37,7 +37,8 @@ export const FunctionalDogs = ({
 				});
 			})
 			.then(() => {
-				console.log(favDogs, unFavDogs);
+				favDogCount(favArr.length);
+				unFavDogCount(unFavArr.length);
 			});
 	}, []);
 
