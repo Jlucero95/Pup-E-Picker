@@ -12,7 +12,11 @@ export const Requests = {
 	postDog: () => {},
 
 	// should delete a dog from the database
-	deleteDog: () => {},
+	deleteDog: ({ dog }: { dog: Dog }) => {
+		fetch(`${baseUrl}/dogs/${dog.id}`, {
+			method: "DELETE",
+		});
+	},
 
 	updateDog: () => {},
 

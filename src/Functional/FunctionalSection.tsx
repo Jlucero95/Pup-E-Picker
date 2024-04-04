@@ -68,8 +68,9 @@ export const FunctionalSection = () => {
 						favDogCount={setFavDogCount}
 						unFavDogCount={setUnFavDogCount}
 					/>
-				) : null}
-				{isCreateDogActive === "active" ? <FunctionalCreateDogForm /> : null}
+				) : (
+					<FunctionalCreateDogForm />
+				)}
 			</div>
 		</section>
 	);

@@ -19,18 +19,24 @@ export const FunctionalDogs = ({
 	const [allDogs, setAllDogs] = useState<Dog[]>([]);
 	const [favDogs, setFavDogs] = useState<Dog[]>([]);
 	const [unFavDogs, setUnFavDogs] = useState<Dog[]>([]);
+	const [isTrashClicked, setIsTrashClicked] = useState<boolean>(false);
+
+	const favArr: Dog[] = [];
+	const unFavArr: Dog[] = [];
 
 	useEffect(() => {
-		const favArr: Dog[] = [];
-		const unFavArr: Dog[] = [];
-		Requests.getAllDogs()
+		refetchDogs();
+	}, []);
+
+	const refetchDogs = () => {
+		return Requests.getAllDogs()
 			.then((dogs: Dog[]) => {
 				setAllDogs(dogs);
 				dogs.map((dog: Dog) => {
-					if (dog.isFavorite && !favArr.includes(dog)) {
+					if (dog.isFavorite) {
 						favArr.push(dog);
 						setFavDogs(favArr);
-					} else if (!dog.isFavorite && !unFavArr.includes(dog)) {
+					} else if (!dog.isFavorite) {
 						unFavArr.push(dog);
 						setUnFavDogs(unFavArr);
 					}
@@ -40,18 +46,43 @@ export const FunctionalDogs = ({
 				favDogCount(favArr.length);
 				unFavDogCount(unFavArr.length);
 			});
-	}, []);
+	};
+
+	if (isTrashClicked) {
+		setAllDogs([]);
+		setFavDogs([]);
+		setUnFavDogs([]);
+		refetchDogs();
+		console.log(allDogs);
+
+		setIsTrashClicked(false);
+	}
 
 	return (
 		<>
-			{isFavActive !== "active" && isUnFavActive !== "active"
-				? ShowSelectedDogs({ dogs: allDogs })
+			{isFavActive === "" && isUnFavActive === ""
+				? ShowSelectedDogs({
+						dogs: allDogs,
+						isTrashClickedProp({ isTrashClicked }) {
+							setIsTrashClicked(isTrashClicked);
+						},
+				  })
 				: null}
 			{isFavActive === "active" && isUnFavActive === ""
-				? ShowSelectedDogs({ dogs: favDogs })
+				? ShowSelectedDogs({
+						dogs: favDogs,
+						isTrashClickedProp({ isTrashClicked }) {
+							setIsTrashClicked(isTrashClicked);
+						},
+				  })
 				: null}
 			{isUnFavActive === "active" && isFavActive === ""
-				? ShowSelectedDogs({ dogs: unFavDogs })
+				? ShowSelectedDogs({
+						dogs: unFavDogs,
+						isTrashClickedProp({ isTrashClicked }) {
+							setIsTrashClicked(isTrashClicked);
+						},
+				  })
 				: null}
 		</>
 	);
