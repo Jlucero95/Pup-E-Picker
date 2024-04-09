@@ -21,26 +21,26 @@ export const FunctionalDogs = ({
 	const [unFavDogs, setUnFavDogs] = useState<Dog[]>([]);
 	const [isTrashClicked, setIsTrashClicked] = useState<boolean>(false);
 
-	const favArr: Dog[] = [];
-	const unFavArr: Dog[] = [];
-
 	useEffect(() => {
 		refetchDogs();
 	}, []);
 
 	const refetchDogs = () => {
-		return Requests.getAllDogs()
+		const favArr: Dog[] = [];
+		const unFavArr: Dog[] = [];
+		Requests.getAllDogs()
 			.then((dogs: Dog[]) => {
 				setAllDogs(dogs);
 				dogs.map((dog: Dog) => {
 					if (dog.isFavorite) {
 						favArr.push(dog);
-						setFavDogs(favArr);
 					} else if (!dog.isFavorite) {
 						unFavArr.push(dog);
-						setUnFavDogs(unFavArr);
 					}
 				});
+				setFavDogs(favArr);
+				setUnFavDogs(unFavArr);
+				console.log(favArr);
 			})
 			.then(() => {
 				favDogCount(favArr.length);
@@ -53,8 +53,6 @@ export const FunctionalDogs = ({
 		setFavDogs([]);
 		setUnFavDogs([]);
 		refetchDogs();
-		console.log(allDogs);
-
 		setIsTrashClicked(false);
 	}
 

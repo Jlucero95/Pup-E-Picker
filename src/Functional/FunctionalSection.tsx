@@ -11,7 +11,6 @@ export const FunctionalSection = () => {
 	const [isCreateDogActive, setIsCreateDogActive] = useState("");
 	const [favDogCount, setFavDogCount] = useState(0);
 	const [unFavDogCount, setUnFavDogCount] = useState(0);
-
 	return (
 		<section id="main-section">
 			<div className="container-header">
