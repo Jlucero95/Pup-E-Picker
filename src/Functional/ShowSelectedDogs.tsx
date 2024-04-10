@@ -22,9 +22,9 @@ export const ShowSelectedDogs = ({
 			}}
 			key={dog.id}
 			onTrashIconClick={() => {
-				Requests.deleteDog({ dog: dog });
 				setIsTrashClicked(true);
 				isTrashClickedProp({ isTrashClicked: isTrashClicked });
+				Requests.deleteDog({ dog: dog });
 			}}
 			onHeartClick={() => {}}
 			onEmptyHeartClick={() => {}}

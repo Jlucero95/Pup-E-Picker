@@ -34,13 +34,12 @@ export const FunctionalDogs = ({
 				dogs.map((dog: Dog) => {
 					if (dog.isFavorite) {
 						favArr.push(dog);
+						setFavDogs(favArr);
 					} else if (!dog.isFavorite) {
 						unFavArr.push(dog);
+						setUnFavDogs(unFavArr);
 					}
 				});
-				setFavDogs(favArr);
-				setUnFavDogs(unFavArr);
-				console.log(favArr);
 			})
 			.then(() => {
 				favDogCount(favArr.length);
