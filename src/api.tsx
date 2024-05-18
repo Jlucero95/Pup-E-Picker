@@ -18,7 +18,14 @@ export const Requests = {
 		});
 	},
 
-	updateDog: () => {},
+	updateDog: ({ dog }: { dog: Dog }) => {
+		const favChange = dog.isFavorite ? false : true;
+		return fetch(`${baseUrl}/dogs/${dog.id}`, {
+			method: "PATCH",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ isFavorite: favChange }),
+		}).then((data) => data.json);
+	},
 
 	// Just a dummy function for use in the playground
 	dummyFunction: () => {},

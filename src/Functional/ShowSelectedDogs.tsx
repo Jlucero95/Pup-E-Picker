@@ -5,9 +5,17 @@ import { Dog } from "../types";
 export const ShowSelectedDogs = ({
 	dogs,
 	isTrashClickedProp,
+	isHeartClickedProp,
+	isEmptyHeartClickedProp,
 }: {
 	dogs: Dog[];
 	isTrashClickedProp: ({ isTrashClicked }: { isTrashClicked: boolean }) => void;
+	isHeartClickedProp: ({ isHeartClicked }: { isHeartClicked: boolean }) => void;
+	isEmptyHeartClickedProp: ({
+		isEmptyHeartClicked,
+	}: {
+		isEmptyHeartClicked: boolean;
+	}) => void;
 }) => {
 	return dogs.map((dog: Dog) => (
 		<DogCard
@@ -24,8 +32,16 @@ export const ShowSelectedDogs = ({
 					isTrashClickedProp({ isTrashClicked: true });
 				});
 			}}
-			onHeartClick={() => {}}
-			onEmptyHeartClick={() => {}}
+			onHeartClick={() => {
+				Requests.updateDog({ dog: dog }).then(() => {
+					isHeartClickedProp({ isHeartClicked: true });
+				});
+			}}
+			onEmptyHeartClick={() => {
+				Requests.updateDog({ dog: dog }).then(() => {
+					isEmptyHeartClickedProp({ isEmptyHeartClicked: true });
+				});
+			}}
 			isLoading={false}
 		/>
 	));

@@ -20,6 +20,9 @@ export const FunctionalDogs = ({
 	const [favDogs, setFavDogs] = useState<Dog[]>([]);
 	const [unFavDogs, setUnFavDogs] = useState<Dog[]>([]);
 	const [isTrashClicked, setIsTrashClicked] = useState<boolean>(false);
+	const [isHeartClicked, setIsHeartClicked] = useState<boolean>(false);
+	const [isEmptyHeartClicked, setIsEmptyHeartClicked] =
+		useState<boolean>(false);
 
 	useEffect(() => {
 		refetchDogs();
@@ -47,11 +50,10 @@ export const FunctionalDogs = ({
 			});
 	};
 
-	if (isTrashClicked) {
-		setAllDogs([]);
-		setFavDogs([]);
-		setUnFavDogs([]);
+	if (isTrashClicked || isHeartClicked || isEmptyHeartClicked) {
 		setIsTrashClicked(false);
+		setIsHeartClicked(false);
+		setIsEmptyHeartClicked(false);
 		refetchDogs();
 	}
 
@@ -63,6 +65,12 @@ export const FunctionalDogs = ({
 						isTrashClickedProp({ isTrashClicked }) {
 							setIsTrashClicked(isTrashClicked);
 						},
+						isHeartClickedProp({ isHeartClicked }) {
+							setIsHeartClicked(isHeartClicked);
+						},
+						isEmptyHeartClickedProp({ isEmptyHeartClicked }) {
+							setIsEmptyHeartClicked(isEmptyHeartClicked);
+						},
 				  })
 				: null}
 			{isFavActive === "active" && isUnFavActive === ""
@@ -71,6 +79,12 @@ export const FunctionalDogs = ({
 						isTrashClickedProp({ isTrashClicked }) {
 							setIsTrashClicked(isTrashClicked);
 						},
+						isHeartClickedProp({ isHeartClicked }) {
+							setIsHeartClicked(isHeartClicked);
+						},
+						isEmptyHeartClickedProp({ isEmptyHeartClicked }) {
+							setIsEmptyHeartClicked(isEmptyHeartClicked);
+						},
 				  })
 				: null}
 			{isFavActive === "" && isUnFavActive === "active"
@@ -78,6 +92,12 @@ export const FunctionalDogs = ({
 						dogs: unFavDogs,
 						isTrashClickedProp({ isTrashClicked }) {
 							setIsTrashClicked(isTrashClicked);
+						},
+						isHeartClickedProp({ isHeartClicked }) {
+							setIsHeartClicked(isHeartClicked);
+						},
+						isEmptyHeartClickedProp({ isEmptyHeartClicked }) {
+							setIsEmptyHeartClicked(isEmptyHeartClicked);
 						},
 				  })
 				: null}
