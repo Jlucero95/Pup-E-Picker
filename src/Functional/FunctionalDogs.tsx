@@ -51,8 +51,8 @@ export const FunctionalDogs = ({
 		setAllDogs([]);
 		setFavDogs([]);
 		setUnFavDogs([]);
-		refetchDogs();
 		setIsTrashClicked(false);
+		refetchDogs();
 	}
 
 	return (
@@ -73,7 +73,7 @@ export const FunctionalDogs = ({
 						},
 				  })
 				: null}
-			{isUnFavActive === "active" && isFavActive === ""
+			{isFavActive === "" && isUnFavActive === "active"
 				? ShowSelectedDogs({
 						dogs: unFavDogs,
 						isTrashClickedProp({ isTrashClicked }) {

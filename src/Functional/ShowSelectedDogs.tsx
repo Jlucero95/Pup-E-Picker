@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { DogCard } from "../Shared/DogCard";
 import { Requests } from "../api";
 import { Dog } from "../types";
@@ -10,7 +9,6 @@ export const ShowSelectedDogs = ({
 	dogs: Dog[];
 	isTrashClickedProp: ({ isTrashClicked }: { isTrashClicked: boolean }) => void;
 }) => {
-	const [isTrashClicked, setIsTrashClicked] = useState(false);
 	return dogs.map((dog: Dog) => (
 		<DogCard
 			dog={{
@@ -22,9 +20,9 @@ export const ShowSelectedDogs = ({
 			}}
 			key={dog.id}
 			onTrashIconClick={() => {
-				setIsTrashClicked(true);
-				isTrashClickedProp({ isTrashClicked: isTrashClicked });
-				Requests.deleteDog({ dog: dog });
+				Requests.deleteDog({ dog: dog }).then(() => {
+					isTrashClickedProp({ isTrashClicked: true });
+				});
 			}}
 			onHeartClick={() => {}}
 			onEmptyHeartClick={() => {}}
