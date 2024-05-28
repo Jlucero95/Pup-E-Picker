@@ -9,7 +9,13 @@ export const Requests = {
 
 	// should create a dog in the database from a partial dog object
 	// and return a promise with the result
-	postDog: () => {},
+	postDog: ({ dog }: { dog: Omit<Dog, "id"> }) => {
+		return fetch(`${baseUrl}/dogs`, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(dog),
+		}).then((data) => data.json);
+	},
 
 	// should delete a dog from the database
 	deleteDog: ({ dog }: { dog: Dog }) => {
