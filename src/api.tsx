@@ -9,12 +9,13 @@ export const Requests = {
 
 	// should create a dog in the database from a partial dog object
 	// and return a promise with the result
-	postDog: ({ dog }: { dog: Omit<Dog, "id"> }) => {
-		return fetch(`${baseUrl}/dogs`, {
+	postDog: async ({ dog }: { dog: Omit<Dog, "id"> }) => {
+		const data = await fetch(`${baseUrl}/dogs`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(dog),
-		}).then((data) => data.json);
+		});
+		return data.json;
 	},
 
 	// should delete a dog from the database
@@ -24,13 +25,14 @@ export const Requests = {
 		});
 	},
 
-	updateDog: ({ dog }: { dog: Dog }) => {
+	updateDog: async ({ dog }: { dog: Dog }) => {
 		const favChange = dog.isFavorite ? false : true;
-		return fetch(`${baseUrl}/dogs/${dog.id}`, {
+		const data = await fetch(`${baseUrl}/dogs/${dog.id}`, {
 			method: "PATCH",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ isFavorite: favChange }),
-		}).then((data) => data.json);
+		});
+		return data.json;
 	},
 
 	// Just a dummy function for use in the playground

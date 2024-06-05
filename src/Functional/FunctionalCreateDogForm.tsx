@@ -3,29 +3,31 @@ import { dogPictures } from "../dog-pictures";
 import { Requests } from "../api";
 
 // use this as your default selected image
-const defaultSelectedImage = dogPictures.BlueHeeler;
+// const defaultSelectedImage = dogPictures.BlueHeeler;
 
 export const FunctionalCreateDogForm = () => {
 	const [dogName, setDogName] = useState("");
 	const [dogDescription, setDogDescription] = useState("");
 	const [dogPhoto, setDogPhoto] = useState("");
+
+	const postDog = () => {
+		return Requests.postDog({
+			dog: {
+				name: dogName,
+				image: dogPhoto,
+				description: dogDescription,
+				isFavorite: false,
+			},
+		});
+	};
+
 	return (
 		<form
 			action=""
 			id="create-dog-form"
 			onSubmit={(e) => {
 				e.preventDefault();
-				Requests.postDog({
-					dog: {
-						image: dogPhoto,
-						description: dogDescription,
-						isFavorite: true,
-						name: dogName,
-					},
-				});
-				setDogName("");
-				setDogDescription("");
-				setDogPhoto(defaultSelectedImage);
+				postDog();
 			}}
 		>
 			<h4>Create a New Dog</h4>
@@ -49,7 +51,12 @@ export const FunctionalCreateDogForm = () => {
 				}}
 			></textarea>
 			<label htmlFor="picture">Select an Image</label>
-			<select id="">
+			<select
+				id=""
+				onChange={(e) => {
+					setDogPhoto(e.target.value);
+				}}
+			>
 				{Object.entries(dogPictures).map(([label, pictureValue]) => {
 					return (
 						<option
