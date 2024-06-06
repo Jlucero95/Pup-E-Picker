@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Dog } from "../types";
 import { Requests } from "../api";
-import { ShowSelectedDogs } from "./ShowSelectedDogs";
+import { ShowSelectedDogs } from "../Shared/ShowSelectedDogs";
 
 // Right now these dogs are constant, but in reality we should be getting these from our server✅
 export const FunctionalDogs = ({
