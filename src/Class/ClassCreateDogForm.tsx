@@ -20,7 +20,9 @@ export class ClassCreateDogForm extends Component {
           id=""
           cols={80}
           rows={10}
-          onChange={(e) => {}}
+          onChange={(e) => {
+            
+          }}
           disabled={false}
         />
         <label htmlFor="picture">Select an Image</label>

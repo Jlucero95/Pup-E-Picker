@@ -1,14 +1,14 @@
 // import { DogCard } from "../Shared/DogCard";
 import { Component } from "react";
 // import { dogPictures } from "../dog-pictures";
-import { ClassDogsState, Dog } from "../types";
+import { ClassDogsState, Dog, HandleDogInfo } from "../types";
 import { Requests } from "../api";
 import { ShowSelectedDogs } from "../Shared/ShowSelectedDogs";
 
 // Right now these dogs are constant, but in reality we should be getting these from our server
 
 export class ClassDogs extends Component<
-	Record<string, never>,
+	{ handleDogInfo: (handleDogInfo: HandleDogInfo) => void },
 	ClassDogsState
 > {
 	state: ClassDogsState = {
@@ -18,36 +18,47 @@ export class ClassDogs extends Component<
 		isTrashClicked: false,
 		isHeartClicked: false,
 		isEmptyHeartClicked: false,
+		favDogCount: 0,
+		unFavDogCount: 0,
+		isFavActive: "",
+		isUnFavActive: "",
 	};
 
-	componentDidMount(): void {
+	componentDidMount() {
 		this.refetchDogs();
 	}
 
 	refetchDogs = () => {
 		const favArr: Dog[] = [];
 		const unFavArr: Dog[] = [];
-		Requests.getAllDogs().then((dogs: Dog[]) => {
-			this.setState({ allDogs: dogs });
-			dogs.map((dog: Dog) => {
-				if (dog.isFavorite) {
-					favArr.push(dog);
-					this.setState({ favDogs: favArr });
-				} else if (!dog.isFavorite) {
-					unFavArr.push(dog);
-					this.setState({ unFavDogs: unFavArr });
-				}
+		Requests.getAllDogs()
+			.then((dogs: Dog[]) => {
+				this.setState({ allDogs: dogs });
+				dogs.map((dog: Dog) => {
+					if (dog.isFavorite) {
+						favArr.push(dog);
+						this.setState({ favDogs: favArr });
+					} else if (!dog.isFavorite) {
+						unFavArr.push(dog);
+						this.setState({ unFavDogs: unFavArr });
+					}
+				});
+			})
+			.then(() => {
+				this.setState({ favDogCount: favArr.length });
+				this.setState({ unFavDogCount: unFavArr.length });
+				this.props.handleDogInfo({
+					favDogCount: this.state.favDogCount,
+					unFavDogCount: this.state.unFavDogCount,
+					isFavActive: "",
+					isUnFavActive: "",
+					isCreateDogActive: "",
+				});
 			});
-		});
-		// .then(() => {
-		// 	favDogCount(favArr.length);
-		// 	unFavDogCount(unFavArr.length);
-		// });
 	};
 	render() {
-		const { allDogs, favDogs, unFavDogs } = this.state;
-		const { unFavDogCount, favDogCount, isFavActive, isUnFavActive } =
-			this.props;
+		const { allDogs, favDogs, unFavDogs, isFavActive, isUnFavActive } =
+			this.state;
 
 		return (
 			<>
