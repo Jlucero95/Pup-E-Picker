@@ -1,4 +1,4 @@
-import { DogCard } from "./DogCard";
+import { DogCard } from "../Shared/DogCard";
 import { Requests } from "../api";
 import { Dog } from "../types";
 

@@ -4,7 +4,6 @@ export type Dog = {
 	description: string;
 	isFavorite: boolean;
 	name: string;
-<<<<<<< HEAD
 };
  export type ClassDogsState = {
 	allDogs: Dog[];
@@ -27,6 +26,3 @@ export type HandleDogInfo ={
 	unFavDogCount: number
 	isCreateDogActive: string
 }
-=======
-};
->>>>>>> parent of d40504a (Started on Class Component side)
