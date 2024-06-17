@@ -3,26 +3,34 @@ import { Component } from "react";
 import { Link } from "react-router-dom";
 import { ClassDogs } from "./ClassDogs";
 import { ClassCreateDogForm } from "./ClassCreateDogForm";
-import { ClassSectionState } from "../types";
+import { HandleDogInfo } from "../types";
 
-export class ClassSection extends Component<ClassSectionState> {
+export type ClassSectionState = {
+	handleDogInfo: HandleDogInfo;
+};
+
+export class ClassSection extends Component<
+	Record<string, never>,
+	ClassSectionState
+> {
 	state: ClassSectionState = {
-		handleActiveState: {
+		handleDogInfo: {
 			isFavActive: "",
 			isUnFavActive: "",
 			isCreateDogActive: "",
-		},
-		handleDogCount: {
 			favDogCount: 0,
 			unFavDogCount: 0,
 		},
 	};
 
 	render() {
-		const { isFavActive, isUnFavActive, isCreateDogActive } =
-			this.state.handleActiveState;
-
-		const { favDogCount, unFavDogCount } = this.state.handleDogCount;
+		const {
+			favDogCount,
+			unFavDogCount,
+			isFavActive,
+			isUnFavActive,
+			isCreateDogActive,
+		} = this.state.handleDogInfo;
 
 		return (
 			<section id="main-section">
@@ -43,18 +51,22 @@ export class ClassSection extends Component<ClassSectionState> {
 							onClick={() => {
 								if (isFavActive === "") {
 									this.setState({
-										handleActiveState: {
+										handleDogInfo: {
 											isFavActive: "active",
 											isUnFavActive: "",
 											isCreateDogActive: "",
+											favDogCount: favDogCount,
+											unFavDogCount: unFavDogCount,
 										},
 									});
 								} else {
 									this.setState({
-										handleActiveState: {
+										handleDogInfo: {
 											isFavActive: "",
 											isUnFavActive: "",
 											isCreateDogActive: "",
+											favDogCount: favDogCount,
+											unFavDogCount: unFavDogCount,
 										},
 									});
 								}
@@ -69,7 +81,7 @@ export class ClassSection extends Component<ClassSectionState> {
 							onClick={() => {
 								if (isUnFavActive === "") {
 									this.setState({
-										handleActiveState: {
+										handleFavorites: {
 											isFavActive: "",
 											isUnFavActive: "active",
 											isCreateDogActive: "",
@@ -77,7 +89,7 @@ export class ClassSection extends Component<ClassSectionState> {
 									});
 								} else {
 									this.setState({
-										handleActiveState: {
+										handleFavorites: {
 											isFavActive: "",
 											isUnFavActive: "",
 											isCreateDogActive: "",
@@ -91,9 +103,9 @@ export class ClassSection extends Component<ClassSectionState> {
 						<div
 							className={`selector ${isCreateDogActive}`}
 							onClick={() => {
-								if (isCreateDogActive === "") {
+								if (isUnFavActive === "") {
 									this.setState({
-										handleActiveState: {
+										handleFavorites: {
 											isFavActive: "",
 											isUnFavActive: "",
 											isCreateDogActive: "active",
@@ -101,7 +113,7 @@ export class ClassSection extends Component<ClassSectionState> {
 									});
 								} else {
 									this.setState({
-										handleActiveState: {
+										handleFavorites: {
 											isFavActive: "",
 											isUnFavActive: "",
 											isCreateDogActive: "",
@@ -117,8 +129,10 @@ export class ClassSection extends Component<ClassSectionState> {
 				<div className="content-container">
 					{isCreateDogActive === "" ? (
 						<ClassDogs
-							handleDogCount={(handleDogCount) => {
-								this.setState({ handleDogCount: handleDogCount });
+							handleDogInfo={(handleDogInfo) => {
+								this.setState({
+									handleDogInfo: handleDogInfo,
+								});
 							}}
 						/>
 					) : (

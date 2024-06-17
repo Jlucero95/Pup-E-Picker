@@ -1,37 +1,16 @@
 // import { DogCard } from "../Shared/DogCard";
 import { Component } from "react";
 // import { dogPictures } from "../dog-pictures";
-import {
-	ClassDogsState,
-	Dog,
-	HandleDogCount,
-	HandleActiveState,
-} from "../types";
+import { ClassDogsState, Dog, HandleDogInfo } from "../types";
 import { Requests } from "../api";
 import { ShowSelectedDogs } from "../Shared/ShowSelectedDogs";
 
 // Right now these dogs are constant, but in reality we should be getting these from our server
 
 export class ClassDogs extends Component<
-	{ handleDogCount: (handDogCount: HandleDogCount) => void },
-	{ handleActiveState: HandleActiveState }
+	{ handleDogInfo: (handleDogInfo: HandleDogInfo) => void },
+	ClassDogsState
 > {
-	constructor(
-		props:
-			| { handleDogCount: (handDogCount: HandleDogCount) => void }
-			| { handleActiveState: HandleActiveState}
-	) {
-		super(props);
-		this.state.handleActiveState = {
-			isCreateDogActive: "",
-			isFavActive: "",
-			isUnFavActive: "",
-		};
-		this.state.handleDogCount = {
-			favDogCount: 0,
-			unFavDogCount: 0,
-		};
-	}
 	state: ClassDogsState = {
 		allDogs: [],
 		favDogs: [],
@@ -39,15 +18,10 @@ export class ClassDogs extends Component<
 		isTrashClicked: false,
 		isHeartClicked: false,
 		isEmptyHeartClicked: false,
-		handleActiveState: {
-			isCreateDogActive: "",
-			isFavActive: "",
-			isUnFavActive: "",
-		},
-		handleDogCount: {
-			favDogCount: 0,
-			unFavDogCount: 0,
-		},
+		favDogCount: 0,
+		unFavDogCount: 0,
+		isFavActive: "",
+		isUnFavActive: "",
 	};
 
 	componentDidMount() {
@@ -74,33 +48,17 @@ export class ClassDogs extends Component<
 				this.setState({ favDogCount: favArr.length });
 				this.setState({ unFavDogCount: unFavArr.length });
 				this.props.handleDogInfo({
+					favDogCount: this.state.favDogCount,
+					unFavDogCount: this.state.unFavDogCount,
 					isFavActive: "",
 					isUnFavActive: "",
 					isCreateDogActive: "",
 				});
 			});
 	};
-
 	render() {
-		const {
-			allDogs,
-			favDogs,
-			unFavDogs,
-			isEmptyHeartClicked,
-			isHeartClicked,
-			isTrashClicked,
-		} = this.state;
-
-		const { isFavActive, isUnFavActive } = this.state.handleActiveState;
-
-		if (isEmptyHeartClicked || isHeartClicked || isTrashClicked) {
-			this.setState({
-				isEmptyHeartClicked: false,
-				isHeartClicked: false,
-				isTrashClicked: false,
-			});
-			this.refetchDogs();
-		}
+		const { allDogs, favDogs, unFavDogs, isFavActive, isUnFavActive } =
+			this.state;
 
 		return (
 			<>
