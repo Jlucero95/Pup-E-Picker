@@ -18,7 +18,7 @@
       "name": "Thurman",
       "image": "/assets/boxer.png",
       "description": "subtle though jade indeed before island aha",
-      "isFavorite": false,
+      "isFavorite": true,
       "id": 2
     },
     {

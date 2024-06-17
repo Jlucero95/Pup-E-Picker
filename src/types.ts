@@ -5,24 +5,29 @@ export type Dog = {
 	isFavorite: boolean;
 	name: string;
 };
- export type ClassDogsState = {
+export type ClassDogsState = {
 	allDogs: Dog[];
 	favDogs: Dog[];
 	unFavDogs: Dog[];
 	isTrashClicked: boolean;
 	isHeartClicked: boolean;
 	isEmptyHeartClicked: boolean;
-	favDogCount: number;
-  unFavDogCount: number;
-	isFavActive:string;
-  isUnFavActive:string;
-
+	handleDogCount: HandleDogCount;
+	handleActiveState: HandleActiveState;
 };
 
-export type HandleDogInfo ={
-	isFavActive: string,
-	isUnFavActive: string,
+export type HandleActiveState = {
+	isFavActive: string;
+	isUnFavActive: string;
+	isCreateDogActive: string;
+};
+
+export type ClassSectionState = {
+	handleActiveState: HandleActiveState;
+	handleDogCount: HandleDogCount;
+};
+
+export type HandleDogCount = {
+	unFavDogCount: number;
 	favDogCount: number;
-	unFavDogCount: number
-	isCreateDogActive: string
-}
+};
