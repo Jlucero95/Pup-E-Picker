@@ -1,4 +1,5 @@
 import { Component } from "react";
+
 import { Dog } from "../types";
 import { Requests } from "../api";
 import { ShowSelectedDogs } from "../Functional/ShowSelectedDogs";
@@ -9,6 +10,9 @@ export class ClassDogs extends Component {
 		allDogs: [],
 		favDogs: [],
 		unFavDogs: [],
+		isTrashClicked: false,
+		isHeartClicked: false,
+		isEmptyHeartClicked: false,
 	};
 
 	componentDidMount() {
@@ -37,22 +41,28 @@ export class ClassDogs extends Component {
 	};
 
 	render() {
-		const { allDogs } = this.state;
+		const { allDogs, isTrashClicked, isEmptyHeartClicked, isHeartClicked } =
+			this.state;
+		if (isEmptyHeartClicked || isHeartClicked || isTrashClicked) {
+			this.setState({
+				isEmptyHeartClicked: false,
+				isHeartClicked: false,
+				isTrashClicked: false,
+			});
+			this.refetchDogs();
+		}
 		return (
 			<>
 				{ShowSelectedDogs({
 					dogs: allDogs,
-					isTrashClickedProp({ isTrashClicked }) {
-						isTrashClicked;
-						// setIsTrashClicked(isTrashClicked);
+					isTrashClickedProp: (isTrashClicked) => {
+						this.setState({ isTrashClicked });
 					},
-					isHeartClickedProp({ isHeartClicked }) {
-						isHeartClicked;
-						// setIsHeartClicked(isHeartClicked);
+					isEmptyHeartClickedProp: (isEmptyHeartClicked) => {
+						this.setState({ isEmptyHeartClicked });
 					},
-					isEmptyHeartClickedProp({ isEmptyHeartClicked }) {
-						isEmptyHeartClicked;
-						// setIsEmptyHeartClicked(isEmptyHeartClicked);
+					isHeartClickedProp: (isHeartClicked) => {
+						this.setState({ isHeartClicked });
 					},
 				})}
 			</>
