@@ -10,10 +10,25 @@ export class ClassSection extends Component<Record<string, never>> {
 		isFavActive: "",
 		isUnFavActive: "",
 		isCreateDogActive: "",
+		favCount: 0,
+		unFavCount: 0,
+	};
+
+	handleFavCount = (favCount: number) => {
+		this.setState({ favCount: favCount });
+	};
+	handleUnFavCount = (unFavCount: number) => {
+		this.setState({ unFavCount: unFavCount });
 	};
 
 	render() {
-		const { isCreateDogActive, isFavActive, isUnFavActive } = this.state;
+		const {
+			isCreateDogActive,
+			isFavActive,
+			isUnFavActive,
+			favCount,
+			unFavCount,
+		} = this.state;
 
 		return (
 			<section id="main-section">
@@ -32,7 +47,7 @@ export class ClassSection extends Component<Record<string, never>> {
 						<SectionSelector
 							section="favorited"
 							activeClass={isFavActive}
-							count={0}
+							count={favCount}
 							onClick={() => {
 								this.setState({
 									isFavActive: "active",
@@ -49,7 +64,7 @@ export class ClassSection extends Component<Record<string, never>> {
 						<SectionSelector
 							section="unfavorited"
 							activeClass={isUnFavActive}
-							count={0}
+							count={unFavCount}
 							onClick={() => {
 								this.setState({
 									isFavActive: "",
@@ -82,6 +97,8 @@ export class ClassSection extends Component<Record<string, never>> {
 						<ClassDogs
 							isFavActiveProp={isFavActive}
 							isUnFavActiveProp={isUnFavActive}
+							favCountProp={this.handleFavCount}
+							unFavCountProp={this.handleUnFavCount}
 						/>
 					) : (
 						<ClassCreateDogForm />

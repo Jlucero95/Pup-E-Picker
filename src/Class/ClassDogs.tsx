@@ -23,22 +23,23 @@ export class ClassDogs extends Component<FavOrUnFavActive> {
 	refetchDogs = () => {
 		const favArr: Dog[] = [];
 		const unFavArr: Dog[] = [];
-		Requests.getAllDogs().then((dogs: Dog[]) => {
-			this.setState({ allDogs: dogs });
-			dogs.map((dog: Dog) => {
-				if (dog.isFavorite) {
-					favArr.push(dog);
-					this.setState({ favDogs: favArr });
-				} else if (!dog.isFavorite) {
-					unFavArr.push(dog);
-					this.setState({ unFavDogs: unFavArr });
-				}
+		Requests.getAllDogs()
+			.then((dogs: Dog[]) => {
+				this.setState({ allDogs: dogs });
+				dogs.map((dog: Dog) => {
+					if (dog.isFavorite) {
+						favArr.push(dog);
+						this.setState({ favDogs: favArr });
+					} else if (!dog.isFavorite) {
+						unFavArr.push(dog);
+						this.setState({ unFavDogs: unFavArr });
+					}
+				});
+			})
+			.then(() => {
+				this.props.favCountProp(favArr.length);
+				this.props.unFavCountProp(unFavArr.length);
 			});
-		});
-		// .then(() => {
-		// 	favDogCount(favArr.length);
-		// 	unFavDogCount(unFavArr.length);
-		// });
 	};
 
 	render() {
@@ -61,7 +62,6 @@ export class ClassDogs extends Component<FavOrUnFavActive> {
 			});
 			this.refetchDogs();
 		}
-
 
 		return (
 			<>

@@ -21,4 +21,6 @@ export type ClassDogsState = {
 export type FavOrUnFavActive = {
 	isFavActiveProp: string;
 	isUnFavActiveProp: string;
+	favCountProp: (favCount: number) => void;
+	unFavCountProp: (unFavCount: number) => void;
 };
