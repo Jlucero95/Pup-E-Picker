@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Dog } from "../types";
 import { Requests } from "../api";
-import { ShowSelectedDogs } from "./ShowSelectedDogs";
+import { ShowSelectedDogsList } from "../Shared/ShowSelectedDogsList";
 
 // Right now these dogs are constant, but in reality we should be getting these from our server✅
 export const FunctionalDogs = ({
@@ -60,7 +60,7 @@ export const FunctionalDogs = ({
 	return (
 		<>
 			{isFavActive === "" && isUnFavActive === ""
-				? ShowSelectedDogs({
+				? ShowSelectedDogsList({
 						dogs: allDogs,
 						isTrashClickedProp({ isTrashClicked }) {
 							setIsTrashClicked(isTrashClicked);
@@ -74,7 +74,7 @@ export const FunctionalDogs = ({
 				  })
 				: null}
 			{isFavActive === "active" && isUnFavActive === ""
-				? ShowSelectedDogs({
+				? ShowSelectedDogsList({
 						dogs: favDogs,
 						isTrashClickedProp({ isTrashClicked }) {
 							setIsTrashClicked(isTrashClicked);
@@ -88,7 +88,7 @@ export const FunctionalDogs = ({
 				  })
 				: null}
 			{isFavActive === "" && isUnFavActive === "active"
-				? ShowSelectedDogs({
+				? ShowSelectedDogsList({
 						dogs: unFavDogs,
 						isTrashClickedProp({ isTrashClicked }) {
 							setIsTrashClicked(isTrashClicked);

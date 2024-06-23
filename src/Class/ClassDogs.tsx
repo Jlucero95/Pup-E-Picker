@@ -1,11 +1,12 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { Component } from "react";
 
-import { Dog } from "../types";
+import { Dog, FavOrUnFavActive } from "../types";
 import { Requests } from "../api";
-import { ShowSelectedDogs } from "../Functional/ShowSelectedDogs";
+import { ShowSelectedDogsList } from "../Shared/ShowSelectedDogsList";
 
 // Right now these dogs are constant, but in reality we should be getting these from our server
-export class ClassDogs extends Component {
+export class ClassDogs extends Component<FavOrUnFavActive> {
 	state = {
 		allDogs: [],
 		favDogs: [],
@@ -41,8 +42,17 @@ export class ClassDogs extends Component {
 	};
 
 	render() {
-		const { allDogs, isTrashClicked, isEmptyHeartClicked, isHeartClicked } =
-			this.state;
+		const {
+			allDogs,
+			favDogs,
+			unFavDogs,
+			isTrashClicked,
+			isEmptyHeartClicked,
+			isHeartClicked,
+		} = this.state;
+
+		const { isFavActiveProp, isUnFavActiveProp } = this.props;
+
 		if (isEmptyHeartClicked || isHeartClicked || isTrashClicked) {
 			this.setState({
 				isEmptyHeartClicked: false,
@@ -51,20 +61,52 @@ export class ClassDogs extends Component {
 			});
 			this.refetchDogs();
 		}
+
 		return (
 			<>
-				{ShowSelectedDogs({
-					dogs: allDogs,
-					isTrashClickedProp: (isTrashClicked) => {
-						this.setState({ isTrashClicked });
-					},
-					isEmptyHeartClickedProp: (isEmptyHeartClicked) => {
-						this.setState({ isEmptyHeartClicked });
-					},
-					isHeartClickedProp: (isHeartClicked) => {
-						this.setState({ isHeartClicked });
-					},
-				})}
+				{isFavActiveProp === "" && isUnFavActiveProp === ""
+					? ShowSelectedDogsList({
+							dogs: allDogs,
+							isTrashClickedProp: (isTrashClicked) => {
+								this.setState({ isTrashClicked });
+							},
+							isEmptyHeartClickedProp: (isEmptyHeartClicked) => {
+								this.setState({ isEmptyHeartClicked });
+							},
+							isHeartClickedProp: (isHeartClicked) => {
+								this.setState({ isHeartClicked });
+							},
+					  })
+					: null}
+
+				{isFavActiveProp === "active" && isUnFavActiveProp === ""
+					? ShowSelectedDogsList({
+							dogs: favDogs,
+							isTrashClickedProp: (isTrashClicked) => {
+								this.setState({ isTrashClicked });
+							},
+							isEmptyHeartClickedProp: (isEmptyHeartClicked) => {
+								this.setState({ isEmptyHeartClicked });
+							},
+							isHeartClickedProp: (isHeartClicked) => {
+								this.setState({ isHeartClicked });
+							},
+					  })
+					: null}
+				{isFavActiveProp === "" && isUnFavActiveProp === "active"
+					? ShowSelectedDogsList({
+							dogs: unFavDogs,
+							isTrashClickedProp: (isTrashClicked) => {
+								this.setState({ isTrashClicked });
+							},
+							isEmptyHeartClickedProp: (isEmptyHeartClicked) => {
+								this.setState({ isEmptyHeartClicked });
+							},
+							isHeartClickedProp: (isHeartClicked) => {
+								this.setState({ isHeartClicked });
+							},
+					  })
+					: null}
 			</>
 		);
 	}
