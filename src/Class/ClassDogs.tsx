@@ -62,6 +62,7 @@ export class ClassDogs extends Component<FavOrUnFavActive> {
 			this.refetchDogs();
 		}
 
+
 		return (
 			<>
 				{isFavActiveProp === "" && isUnFavActiveProp === ""

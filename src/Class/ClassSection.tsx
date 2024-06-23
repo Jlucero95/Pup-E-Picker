@@ -14,6 +14,7 @@ export class ClassSection extends Component<Record<string, never>> {
 
 	render() {
 		const { isCreateDogActive, isFavActive, isUnFavActive } = this.state;
+
 		return (
 			<section id="main-section">
 				<div className="container-header">
@@ -38,8 +39,9 @@ export class ClassSection extends Component<Record<string, never>> {
 									isUnFavActive: "",
 									isCreateDogActive: "",
 								});
-								if (isFavActive === "active")
-									this.setState({ favDogActive: "" });
+								if (isFavActive === "active") {
+									this.setState({ isFavActive: "" });
+								}
 							}}
 						/>
 
@@ -54,8 +56,9 @@ export class ClassSection extends Component<Record<string, never>> {
 									isUnFavActive: "active",
 									isCreateDogActive: "",
 								});
-								if (isUnFavActive === "active")
-									this.setState({ unFavDogActive: "" });
+								if (isUnFavActive === "active") {
+									this.setState({ isUnFavActive: "" });
+								}
 							}}
 						/>
 						<div
