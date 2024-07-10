@@ -25,14 +25,14 @@
       "name": "Lucie",
       "image": "/assets/dalmation.png",
       "description": "psst justly browsing all solid",
-      "isFavorite": false,
+      "isFavorite": true,
       "id": 4
     },
     {
       "name": "Luella",
       "image": "/assets/blue-heeler.png",
       "description": "smoothly idolized naturally yum that till phew",
-      "isFavorite": false,
+      "isFavorite": true,
       "id": 5
     },
     {
@@ -109,7 +109,7 @@
       "name": "Dakota",
       "image": "/assets/chihuahua.avif",
       "description": "salad hopelessly loyally gah whoever",
-      "isFavorite": true,
+      "isFavorite": false,
       "id": 16
     },
     {
@@ -123,7 +123,7 @@
       "name": "Stewart",
       "image": "/assets/blue-heeler.png",
       "description": "bad whoever obedient modulo investigation daily yum",
-      "isFavorite": true,
+      "isFavorite": false,
       "id": 17
     },
     {
@@ -137,7 +137,7 @@
       "name": "Korey",
       "image": "/assets/chihuahua.avif",
       "description": "loosely at bossy surprisingly friendly for well-lit seldom",
-      "isFavorite": false,
+      "isFavorite": true,
       "id": 19
     }
   ]

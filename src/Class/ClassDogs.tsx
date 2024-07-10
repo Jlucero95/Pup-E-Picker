@@ -1,12 +1,11 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { Component } from "react";
-
-import { Dog, FavOrUnFavActive } from "../types";
 import { Requests } from "../api";
 import { ShowSelectedDogsList } from "../Shared/ShowSelectedDogsList";
+import { Dog, FavAndUnFavData } from "../types";
 
 // Right now these dogs are constant, but in reality we should be getting these from our server
-export class ClassDogs extends Component<FavOrUnFavActive> {
+export class ClassDogs extends Component<FavAndUnFavData> {
 	state = {
 		allDogs: [],
 		favDogs: [],
@@ -14,10 +13,30 @@ export class ClassDogs extends Component<FavOrUnFavActive> {
 		isTrashClicked: false,
 		isHeartClicked: false,
 		isEmptyHeartClicked: false,
+		isLoading: false
 	};
 
 	componentDidMount() {
 		this.refetchDogs();
+	}
+
+	componentDidUpdate() {
+		if (
+			this.state.isEmptyHeartClicked ||
+			this.state.isHeartClicked ||
+			this.state.isTrashClicked
+		) {
+			this.setState({
+				isEmptyHeartClicked: false,
+				isHeartClicked: false,
+				isTrashClicked: false,
+			});
+			this.refetchDogs();
+
+			if (this.state.allDogs.length === this.state.allDogs.length + 1) {
+				this.refetchDogs();
+			}
+		}
 	}
 
 	refetchDogs = () => {
@@ -43,25 +62,9 @@ export class ClassDogs extends Component<FavOrUnFavActive> {
 	};
 
 	render() {
-		const {
-			allDogs,
-			favDogs,
-			unFavDogs,
-			isTrashClicked,
-			isEmptyHeartClicked,
-			isHeartClicked,
-		} = this.state;
+		const { allDogs, favDogs, unFavDogs } = this.state;
 
 		const { isFavActiveProp, isUnFavActiveProp } = this.props;
-
-		if (isEmptyHeartClicked || isHeartClicked || isTrashClicked) {
-			this.setState({
-				isEmptyHeartClicked: false,
-				isHeartClicked: false,
-				isTrashClicked: false,
-			});
-			this.refetchDogs();
-		}
 
 		return (
 			<>

@@ -3,12 +3,12 @@ import { dogPictures } from "../dog-pictures";
 import { Requests } from "../api";
 
 // use this as your default selected image
-// const defaultSelectedImage = dogPictures.BlueHeeler;
+const defaultSelectedImage = dogPictures.BlueHeeler;
 
 export const FunctionalCreateDogForm = () => {
 	const [dogName, setDogName] = useState("");
 	const [dogDescription, setDogDescription] = useState("");
-	const [dogPhoto, setDogPhoto] = useState("");
+	const [dogPhoto, setDogPhoto] = useState(defaultSelectedImage);
 
 	const postDog = () => {
 		return Requests.postDog({
@@ -21,6 +21,12 @@ export const FunctionalCreateDogForm = () => {
 		});
 	};
 
+	const resetForm = () => {
+		return (
+			setDogName(""), setDogDescription(""), setDogPhoto(defaultSelectedImage)
+		);
+	};
+
 	return (
 		<form
 			action=""
@@ -28,6 +34,7 @@ export const FunctionalCreateDogForm = () => {
 			onSubmit={(e) => {
 				e.preventDefault();
 				postDog();
+				resetForm();
 			}}
 		>
 			<h4>Create a New Dog</h4>
@@ -35,6 +42,7 @@ export const FunctionalCreateDogForm = () => {
 			<input
 				type="text"
 				disabled={false}
+				value={dogName}
 				onChange={(e) => {
 					setDogName(e.target.value);
 				}}
@@ -46,6 +54,7 @@ export const FunctionalCreateDogForm = () => {
 				cols={80}
 				rows={10}
 				disabled={false}
+				value={dogDescription}
 				onChange={(e) => {
 					setDogDescription(e.target.value);
 				}}
@@ -56,6 +65,7 @@ export const FunctionalCreateDogForm = () => {
 				onChange={(e) => {
 					setDogPhoto(e.target.value);
 				}}
+				value={dogPhoto}
 			>
 				{Object.entries(dogPictures).map(([label, pictureValue]) => {
 					return (

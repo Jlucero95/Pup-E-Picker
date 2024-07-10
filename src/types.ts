@@ -12,13 +12,10 @@ export type ClassDogsState = {
 	isTrashClicked: boolean;
 	isHeartClicked: boolean;
 	isEmptyHeartClicked: boolean;
-	favDogCount: number;
-	unFavDogCount: number;
-	isFavActive: string;
-	isUnFavActive: string;
+	isSubmitted: boolean;
 };
 
-export type FavOrUnFavActive = {
+export type FavAndUnFavData = {
 	isFavActiveProp: string;
 	isUnFavActiveProp: string;
 	favCountProp: (favCount: number) => void;
