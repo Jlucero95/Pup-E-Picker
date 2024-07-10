@@ -18,7 +18,7 @@ export const ShowSelectedDogsList = ({
 		isEmptyHeartClicked: boolean;
 	}) => void;
 }) => {
-	const { isLoading, setIsLoading } = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	return dogs.map((dog: Dog) => (
 		<DogCard
