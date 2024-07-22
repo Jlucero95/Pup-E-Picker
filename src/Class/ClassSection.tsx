@@ -3,7 +3,7 @@ import { Component } from "react";
 import { Link } from "react-router-dom";
 import { ClassDogs } from "./ClassDogs";
 import { SectionSelector } from "../Shared/Selectors";
-import { ClassCreateDogForm } from "./ClassCreateDogForm";
+// import { ClassCreateDogForm } from "./ClassCreateDogForm";
 
 export class ClassSection extends Component<Record<string, never>> {
 	state = {
@@ -12,6 +12,7 @@ export class ClassSection extends Component<Record<string, never>> {
 		isCreateDogActive: "",
 		favCount: 0,
 		unFavCount: 0,
+		isLoading: false,
 	};
 
 	handleFavCount = (favCount: number) => {
@@ -93,16 +94,17 @@ export class ClassSection extends Component<Record<string, never>> {
 					</div>
 				</div>
 				<div className="content-container">
-					{isCreateDogActive === "" ? (
+					{
 						<ClassDogs
-							isFavActiveProp={isFavActive}
-							isUnFavActiveProp={isUnFavActive}
-							favCountProp={this.handleFavCount}
-							unFavCountProp={this.handleUnFavCount}
+							FavAndUnFavData={{
+								isFavActive: isFavActive,
+								isUnFavActive: isUnFavActive,
+								isCreateActive: isCreateDogActive,
+								favCount: this.handleFavCount,
+								unFavCount: this.handleUnFavCount,
+							}}
 						/>
-					) : (
-						<ClassCreateDogForm />
-					)}
+					}
 				</div>
 			</section>
 		);

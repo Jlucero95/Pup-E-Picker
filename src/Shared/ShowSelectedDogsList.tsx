@@ -1,13 +1,13 @@
 import { DogCard } from "./DogCard";
 import { Requests } from "../api";
 import { Dog } from "../types";
-import { useState } from "react";
 
 export const ShowSelectedDogsList = ({
 	dogs,
 	isTrashClickedProp,
 	isHeartClickedProp,
 	isEmptyHeartClickedProp,
+	isLoading,
 }: {
 	dogs: Dog[];
 	isTrashClickedProp: ({ isTrashClicked }: { isTrashClicked: boolean }) => void;
@@ -17,9 +17,8 @@ export const ShowSelectedDogsList = ({
 	}: {
 		isEmptyHeartClicked: boolean;
 	}) => void;
+	isLoading: boolean;
 }) => {
-	const [isLoading, setIsLoading] = useState(false);
-
 	return dogs.map((dog: Dog) => (
 		<DogCard
 			dog={{
@@ -32,19 +31,16 @@ export const ShowSelectedDogsList = ({
 			key={dog.id}
 			onTrashIconClick={() => {
 				Requests.deleteDog({ dog: dog }).then(() => {
-					setIsLoading(true);
 					isTrashClickedProp({ isTrashClicked: true });
 				});
 			}}
 			onHeartClick={() => {
 				Requests.updateDog({ dog: dog }).then(() => {
-					setIsLoading(true);
 					isHeartClickedProp({ isHeartClicked: true });
 				});
 			}}
 			onEmptyHeartClick={() => {
 				Requests.updateDog({ dog: dog }).then(() => {
-					setIsLoading(true);
 					isEmptyHeartClickedProp({ isEmptyHeartClicked: true });
 				});
 			}}

@@ -5,6 +5,7 @@ export type Dog = {
 	isFavorite: boolean;
 	name: string;
 };
+
 export type ClassDogsState = {
 	allDogs: Dog[];
 	favDogs: Dog[];
@@ -12,12 +13,17 @@ export type ClassDogsState = {
 	isTrashClicked: boolean;
 	isHeartClicked: boolean;
 	isEmptyHeartClicked: boolean;
-	isSubmitted: boolean;
+	isCardLoading: boolean;
+	isCreateLoading: boolean;
+	isCreateDogActive: boolean;
+	isFavActive: boolean;
+	isUnFavActive: boolean;
 };
 
 export type FavAndUnFavData = {
-	isFavActiveProp: string;
-	isUnFavActiveProp: string;
-	favCountProp: (favCount: number) => void;
-	unFavCountProp: (unFavCount: number) => void;
+	isFavActive: string;
+	isUnFavActive: string;
+	isCreateActive: string;
+	favCount: (favCount: number) => void;
+	unFavCount: (unFavCount: number) => void;
 };
