@@ -3,18 +3,20 @@ import { useEffect, useState } from "react";
 import { Dog } from "../types";
 import { Requests } from "../api";
 import { ShowSelectedDogsList } from "../Shared/ShowSelectedDogsList";
-// import { FunctionalCreateDogForm } from "./FunctionalCreateDogForm";
 import { SelectedDogs } from "../Shared/SelectedDogs";
+import { FunctionalCreateDogForm } from "./FunctionalCreateDogForm";
 
 // Right now these dogs are constant, but in reality we should be getting these from our server✅
 export const FunctionalDogs = ({
 	isFavActive,
 	isUnFavActive,
+	isCreateActive,
 	favDogCount,
 	unFavDogCount,
 }: {
 	isFavActive: string;
 	isUnFavActive: string;
+	isCreateActive: string;
 	favDogCount: (count: number) => void;
 	unFavDogCount: (count: number) => void;
 }) => {
@@ -31,6 +33,8 @@ export const FunctionalDogs = ({
 	useEffect(() => {
 		refetchDogs();
 	}, []);
+
+	console.log(allDogs);
 
 	const refetchDogs = () => {
 		const favArr: Dog[] = [];
@@ -79,20 +83,24 @@ export const FunctionalDogs = ({
 
 	return (
 		<>
-			{ShowSelectedDogsList({
-				dogs: selectedDogs,
-				isTrashClicked({ isTrashClicked }) {
-					setIsTrashClicked(isTrashClicked);
-				},
-				isHeartClicked({ isHeartClicked }) {
-					setIsHeartClicked(isHeartClicked);
-				},
-				isEmptyHeartClicked({ isEmptyHeartClicked }) {
-					setIsEmptyHeartClicked(isEmptyHeartClicked);
-				},
+			{isCreateActive === "active" ? (
+				<FunctionalCreateDogForm />
+			) : (
+				ShowSelectedDogsList({
+					dogs: selectedDogs,
+					isTrashClicked({ isTrashClicked }) {
+						setIsTrashClicked(isTrashClicked);
+					},
+					isHeartClicked({ isHeartClicked }) {
+						setIsHeartClicked(isHeartClicked);
+					},
+					isEmptyHeartClicked({ isEmptyHeartClicked }) {
+						setIsEmptyHeartClicked(isEmptyHeartClicked);
+					},
 
-				isLoading: isCardLoading,
-			})}
+					isLoading: isCardLoading,
+				})
+			)}
 		</>
 	);
 };

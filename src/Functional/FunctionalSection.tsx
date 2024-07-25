@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { FunctionalDogs } from "./FunctionalDogs";
 import { SectionSelector } from "../Shared/Selectors";
 import { useState } from "react";
-import { FunctionalCreateDogForm } from "./FunctionalCreateDogForm";
 
 export const FunctionalSection = () => {
 	const [isFavActive, setIsFavActive] = useState("");
@@ -61,16 +60,13 @@ export const FunctionalSection = () => {
 				</div>
 			</div>
 			<div className="content-container">
-				{isCreateDogActive ? (
-					<FunctionalCreateDogForm />
-				) : (
-					<FunctionalDogs
-						isFavActive={isFavActive}
-						isUnFavActive={isUnFavActive}
-						favDogCount={setFavDogCount}
-						unFavDogCount={setUnFavDogCount}
-					/>
-				)}
+				<FunctionalDogs
+					isFavActive={isFavActive}
+					isUnFavActive={isUnFavActive}
+					isCreateActive={isCreateDogActive}
+					favDogCount={setFavDogCount}
+					unFavDogCount={setUnFavDogCount}
+				/>
 			</div>
 		</section>
 	);
