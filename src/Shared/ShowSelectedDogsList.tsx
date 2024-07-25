@@ -4,15 +4,15 @@ import { Dog } from "../types";
 
 export const ShowSelectedDogsList = ({
 	dogs,
-	isTrashClickedProp,
-	isHeartClickedProp,
-	isEmptyHeartClickedProp,
+	isTrashClicked,
+	isHeartClicked,
+	isEmptyHeartClicked,
 	isLoading,
 }: {
 	dogs: Dog[];
-	isTrashClickedProp: ({ isTrashClicked }: { isTrashClicked: boolean }) => void;
-	isHeartClickedProp: ({ isHeartClicked }: { isHeartClicked: boolean }) => void;
-	isEmptyHeartClickedProp: ({
+	isTrashClicked: ({ isTrashClicked }: { isTrashClicked: boolean }) => void;
+	isHeartClicked: ({ isHeartClicked }: { isHeartClicked: boolean }) => void;
+	isEmptyHeartClicked: ({
 		isEmptyHeartClicked,
 	}: {
 		isEmptyHeartClicked: boolean;
@@ -31,17 +31,17 @@ export const ShowSelectedDogsList = ({
 			key={dog.id}
 			onTrashIconClick={() => {
 				Requests.deleteDog({ dog: dog }).then(() => {
-					isTrashClickedProp({ isTrashClicked: true });
+					isTrashClicked({ isTrashClicked: true });
 				});
 			}}
 			onHeartClick={() => {
 				Requests.updateDog({ dog: dog }).then(() => {
-					isHeartClickedProp({ isHeartClicked: true });
+					isHeartClicked({ isHeartClicked: true });
 				});
 			}}
 			onEmptyHeartClick={() => {
 				Requests.updateDog({ dog: dog }).then(() => {
-					isEmptyHeartClickedProp({ isEmptyHeartClicked: true });
+					isEmptyHeartClicked({ isEmptyHeartClicked: true });
 				});
 			}}
 			isLoading={isLoading}

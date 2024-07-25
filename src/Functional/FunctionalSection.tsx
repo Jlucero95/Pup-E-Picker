@@ -1,16 +1,17 @@
 // you can use this type for react children if you so choose
 import { Link } from "react-router-dom";
 import { FunctionalDogs } from "./FunctionalDogs";
-import { FunctionalCreateDogForm } from "./FunctionalCreateDogForm";
 import { SectionSelector } from "../Shared/Selectors";
 import { useState } from "react";
+import { FunctionalCreateDogForm } from "./FunctionalCreateDogForm";
 
 export const FunctionalSection = () => {
 	const [isFavActive, setIsFavActive] = useState("");
 	const [isUnFavActive, setIsUnFavActive] = useState("");
 	const [isCreateDogActive, setIsCreateDogActive] = useState("");
-	const [favDogCount, setFavDogCount] = useState(0);
-	const [unFavDogCount, setUnFavDogCount] = useState(0);
+	const [favDogCount, setFavDogCount] = useState<number>(0);
+	const [unFavDogCount, setUnFavDogCount] = useState<number>(0);
+
 	return (
 		<section id="main-section">
 			<div className="container-header">
@@ -60,15 +61,15 @@ export const FunctionalSection = () => {
 				</div>
 			</div>
 			<div className="content-container">
-				{isCreateDogActive === "" ? (
+				{isCreateDogActive ? (
+					<FunctionalCreateDogForm />
+				) : (
 					<FunctionalDogs
 						isFavActive={isFavActive}
 						isUnFavActive={isUnFavActive}
 						favDogCount={setFavDogCount}
 						unFavDogCount={setUnFavDogCount}
 					/>
-				) : (
-					<FunctionalCreateDogForm />
 				)}
 			</div>
 		</section>

@@ -4,8 +4,8 @@ import { Requests } from "../api";
 import { ShowSelectedDogsList } from "../Shared/ShowSelectedDogsList";
 import { ClassDogsState, Dog, FavAndUnFavData } from "../types";
 import { ClassCreateDogForm } from "./ClassCreateDogForm";
+import { SelectedDogs } from "../Shared/SelectedDogs";
 
-// Right now these dogs are constant, but in reality we should be getting these from our server
 export class ClassDogs extends Component<
 	{ FavAndUnFavData: FavAndUnFavData },
 	ClassDogsState
@@ -19,9 +19,6 @@ export class ClassDogs extends Component<
 		isEmptyHeartClicked: false,
 		isCardLoading: false,
 		isCreateLoading: false,
-		isCreateDogActive: false,
-		isFavActive: false,
-		isUnFavActive: false,
 	};
 
 	componentDidMount() {
@@ -72,20 +69,22 @@ export class ClassDogs extends Component<
 
 	render() {
 		const { allDogs, favDogs, unFavDogs, isCardLoading } = this.state;
-
 		const { isFavActive, isUnFavActive, isCreateActive } =
 			this.props.FavAndUnFavData;
 
-		let dogsToShow = allDogs;
-		if (isFavActive === "active") {
-			dogsToShow = favDogs;
-		} else if (isUnFavActive === "active") {
-			dogsToShow = unFavDogs;
-		}
+		const selectedDogs = SelectedDogs({
+			fav: isFavActive,
+			unFav: isUnFavActive,
+			allDogs: allDogs,
+			favDogs: favDogs,
+			unFavDogs: unFavDogs,
+		});
 
 		return (
 			<>
-				{isCreateActive && isFavActive === "" && isUnFavActive === "" ? (
+				{isCreateActive === "active" &&
+				isFavActive === "" &&
+				isUnFavActive === "" ? (
 					<ClassCreateDogForm
 						isLoading={(isLoading) => {
 							this.setState({ isCreateLoading: isLoading });
@@ -93,15 +92,16 @@ export class ClassDogs extends Component<
 					/>
 				) : (
 					ShowSelectedDogsList({
-						dogs: dogsToShow,
-						isTrashClickedProp: (isTrashClicked) => {
+						dogs: selectedDogs,
+						isTrashClicked: (isTrashClicked) => {
+							
 							if (isTrashClicked) this.setState({ isTrashClicked: true });
 						},
-						isEmptyHeartClickedProp: (isEmptyHeartClicked) => {
+						isEmptyHeartClicked: (isEmptyHeartClicked) => {
 							if (isEmptyHeartClicked)
 								this.setState({ isEmptyHeartClicked: true });
 						},
-						isHeartClickedProp: (isHeartClicked) => {
+						isHeartClicked: (isHeartClicked) => {
 							if (isHeartClicked) this.setState({ isHeartClicked: true });
 						},
 						isLoading: isCardLoading,

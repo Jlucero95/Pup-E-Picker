@@ -14,7 +14,6 @@ export class ClassCreateDogForm extends Component<{
 		dogPhoto: defaultSelectedImage,
 		isLoading: false,
 		submitDisabled: false,
-		isSubmitted: false,
 		isLoadingState: false,
 	};
 
@@ -58,9 +57,6 @@ export class ClassCreateDogForm extends Component<{
 				id="create-dog-form"
 				onSubmit={(e) => {
 					e.preventDefault();
-					this.setState({
-						isSubmitted: true,
-					});
 					this.postDog();
 				}}
 			>

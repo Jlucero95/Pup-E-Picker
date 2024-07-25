@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { dogPictures } from "../dog-pictures";
 import { Requests } from "../api";
+import toast from "react-hot-toast";
 
 // use this as your default selected image
 const defaultSelectedImage = dogPictures.BlueHeeler;
@@ -9,6 +10,7 @@ export const FunctionalCreateDogForm = () => {
 	const [dogName, setDogName] = useState("");
 	const [dogDescription, setDogDescription] = useState("");
 	const [dogPhoto, setDogPhoto] = useState(defaultSelectedImage);
+	const [submitDisabled, setSubmitDisabled] = useState<boolean>(false);
 
 	const postDog = () => {
 		return Requests.postDog({
@@ -18,13 +20,23 @@ export const FunctionalCreateDogForm = () => {
 				description: dogDescription,
 				isFavorite: false,
 			},
-		});
+		})
+			.then(() => {
+				setSubmitDisabled(true);
+			})
+			.then(() => {
+				toast.success(`created ${dogName}`);
+			})
+			.finally(() => {
+				resetForm();
+			});
 	};
 
 	const resetForm = () => {
-		return (
-			setDogName(""), setDogDescription(""), setDogPhoto(defaultSelectedImage)
-		);
+		setSubmitDisabled(false);
+		setDogName("");
+		setDogDescription("");
+		setDogPhoto(defaultSelectedImage);
 	};
 
 	return (
@@ -34,14 +46,13 @@ export const FunctionalCreateDogForm = () => {
 			onSubmit={(e) => {
 				e.preventDefault();
 				postDog();
-				resetForm();
 			}}
 		>
 			<h4>Create a New Dog</h4>
 			<label htmlFor="name">Dog Name</label>
 			<input
 				type="text"
-				disabled={false}
+				disabled={submitDisabled}
 				value={dogName}
 				onChange={(e) => {
 					setDogName(e.target.value);
@@ -53,7 +64,7 @@ export const FunctionalCreateDogForm = () => {
 				id=""
 				cols={80}
 				rows={10}
-				disabled={false}
+				disabled={submitDisabled}
 				value={dogDescription}
 				onChange={(e) => {
 					setDogDescription(e.target.value);
@@ -66,6 +77,7 @@ export const FunctionalCreateDogForm = () => {
 					setDogPhoto(e.target.value);
 				}}
 				value={dogPhoto}
+				disabled={submitDisabled}
 			>
 				{Object.entries(dogPictures).map(([label, pictureValue]) => {
 					return (
@@ -78,7 +90,10 @@ export const FunctionalCreateDogForm = () => {
 					);
 				})}
 			</select>
-			<input type="submit" />
+			<input
+				type="submit"
+				disabled={submitDisabled}
+			/>
 		</form>
 	);
 };
