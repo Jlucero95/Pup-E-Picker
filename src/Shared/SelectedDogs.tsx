@@ -1,18 +1,12 @@
-import { Dog } from "../types";
+import { FavAndDogData } from "../types";
 
 export const SelectedDogs = ({
-	fav,
-	unFav,
-	allDogs,
-	favDogs,
-	unFavDogs,
+	favAndDogData,
 }: {
-	fav: string;
-	unFav: string;
-	allDogs: Dog[];
-	favDogs: Dog[];
-	unFavDogs: Dog[];
+	favAndDogData: FavAndDogData;
 }) => {
+	const { fav, unFav, allDogs, favDogs, unFavDogs } = favAndDogData;
+
 	if (fav === "active" && unFav === "") {
 		return favDogs;
 	}

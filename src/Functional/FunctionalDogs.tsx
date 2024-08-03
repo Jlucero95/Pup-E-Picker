@@ -1,6 +1,6 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { useEffect, useState } from "react";
-import { Dog } from "../types";
+import { Dog, FavAndUnFavData } from "../types";
 import { Requests } from "../api";
 import { ShowSelectedDogsList } from "../Shared/ShowSelectedDogsList";
 import { SelectedDogs } from "../Shared/SelectedDogs";
@@ -8,17 +8,9 @@ import { FunctionalCreateDogForm } from "./FunctionalCreateDogForm";
 
 // Right now these dogs are constant, but in reality we should be getting these from our server✅
 export const FunctionalDogs = ({
-	isFavActive,
-	isUnFavActive,
-	isCreateActive,
-	favDogCount,
-	unFavDogCount,
+	favAndUnFavData,
 }: {
-	isFavActive: string;
-	isUnFavActive: string;
-	isCreateActive: string;
-	favDogCount: (count: number) => void;
-	unFavDogCount: (count: number) => void;
+	favAndUnFavData: FavAndUnFavData;
 }) => {
 	const [allDogs, setAllDogs] = useState<Dog[]>([]);
 	const [favDogs, setFavDogs] = useState<Dog[]>([]);
@@ -30,11 +22,12 @@ export const FunctionalDogs = ({
 	const [isSubmitLoading, setIsSubmitLoading] = useState<boolean>(false);
 	const [isCardLoading, setIsCardLoading] = useState<boolean>(false);
 
+	const { isFavActive, isUnFavActive, isCreateActive, favCount, unFavCount } =
+		favAndUnFavData;
+
 	useEffect(() => {
 		refetchDogs();
 	}, []);
-
-	console.log(allDogs);
 
 	const refetchDogs = () => {
 		const favArr: Dog[] = [];
@@ -56,8 +49,8 @@ export const FunctionalDogs = ({
 			.finally(() => {
 				setIsCardLoading(false);
 				setIsSubmitLoading(false);
-				favDogCount(favArr.length);
-				unFavDogCount(unFavArr.length);
+				favCount(favArr.length);
+				unFavCount(unFavArr.length);
 			});
 	};
 
@@ -74,31 +67,39 @@ export const FunctionalDogs = ({
 	}
 
 	const selectedDogs = SelectedDogs({
-		fav: isFavActive,
-		unFav: isUnFavActive,
-		allDogs: allDogs,
-		favDogs: favDogs,
-		unFavDogs: unFavDogs,
+		favAndDogData: {
+			fav: isFavActive,
+			unFav: isUnFavActive,
+			allDogs: allDogs,
+			favDogs: favDogs,
+			unFavDogs: unFavDogs,
+		},
 	});
 
 	return (
 		<>
 			{isCreateActive === "active" ? (
-				<FunctionalCreateDogForm />
+				<FunctionalCreateDogForm
+					isSubmitted={(isSubmitted) => {
+						setIsSubmitLoading(isSubmitted);
+					}}
+				/>
 			) : (
 				ShowSelectedDogsList({
-					dogs: selectedDogs,
-					isTrashClicked({ isTrashClicked }) {
-						setIsTrashClicked(isTrashClicked);
-					},
-					isHeartClicked({ isHeartClicked }) {
-						setIsHeartClicked(isHeartClicked);
-					},
-					isEmptyHeartClicked({ isEmptyHeartClicked }) {
-						setIsEmptyHeartClicked(isEmptyHeartClicked);
-					},
+					dogAndActionData: {
+						dogs: selectedDogs,
+						isTrashClicked({ isTrashClicked }) {
+							setIsTrashClicked(isTrashClicked);
+						},
+						isHeartClicked({ isHeartClicked }) {
+							setIsHeartClicked(isHeartClicked);
+						},
+						isEmptyHeartClicked({ isEmptyHeartClicked }) {
+							setIsEmptyHeartClicked(isEmptyHeartClicked);
+						},
 
-					isLoading: isCardLoading,
+						isLoading: isCardLoading,
+					},
 				})
 			)}
 		</>

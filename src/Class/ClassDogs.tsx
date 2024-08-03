@@ -73,18 +73,18 @@ export class ClassDogs extends Component<
 			this.props.FavAndUnFavData;
 
 		const selectedDogs = SelectedDogs({
-			fav: isFavActive,
-			unFav: isUnFavActive,
-			allDogs: allDogs,
-			favDogs: favDogs,
-			unFavDogs: unFavDogs,
+			favAndDogData: {
+				fav: isFavActive,
+				unFav: isUnFavActive,
+				allDogs,
+				favDogs,
+				unFavDogs,
+			},
 		});
 
 		return (
 			<>
-				{isCreateActive === "active" &&
-				isFavActive === "" &&
-				isUnFavActive === "" ? (
+				{isCreateActive === "active" ? (
 					<ClassCreateDogForm
 						isLoading={(isLoading) => {
 							this.setState({ isCreateLoading: isLoading });
@@ -92,19 +92,20 @@ export class ClassDogs extends Component<
 					/>
 				) : (
 					ShowSelectedDogsList({
-						dogs: selectedDogs,
-						isTrashClicked: (isTrashClicked) => {
-							
-							if (isTrashClicked) this.setState({ isTrashClicked: true });
+						dogAndActionData: {
+							dogs: selectedDogs,
+							isTrashClicked: (isTrashClicked) => {
+								if (isTrashClicked) this.setState({ isTrashClicked: true });
+							},
+							isEmptyHeartClicked: (isEmptyHeartClicked) => {
+								if (isEmptyHeartClicked)
+									this.setState({ isEmptyHeartClicked: true });
+							},
+							isHeartClicked: (isHeartClicked) => {
+								if (isHeartClicked) this.setState({ isHeartClicked: true });
+							},
+							isLoading: isCardLoading,
 						},
-						isEmptyHeartClicked: (isEmptyHeartClicked) => {
-							if (isEmptyHeartClicked)
-								this.setState({ isEmptyHeartClicked: true });
-						},
-						isHeartClicked: (isHeartClicked) => {
-							if (isHeartClicked) this.setState({ isHeartClicked: true });
-						},
-						isLoading: isCardLoading,
 					})
 				)}
 			</>

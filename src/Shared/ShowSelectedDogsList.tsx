@@ -1,24 +1,21 @@
 import { DogCard } from "./DogCard";
 import { Requests } from "../api";
-import { Dog } from "../types";
+import { Dog, DogAndActionData } from "../types";
+import toast from "react-hot-toast";
 
 export const ShowSelectedDogsList = ({
-	dogs,
-	isTrashClicked,
-	isHeartClicked,
-	isEmptyHeartClicked,
-	isLoading,
+	dogAndActionData,
 }: {
-	dogs: Dog[];
-	isTrashClicked: ({ isTrashClicked }: { isTrashClicked: boolean }) => void;
-	isHeartClicked: ({ isHeartClicked }: { isHeartClicked: boolean }) => void;
-	isEmptyHeartClicked: ({
-		isEmptyHeartClicked,
-	}: {
-		isEmptyHeartClicked: boolean;
-	}) => void;
-	isLoading: boolean;
+	dogAndActionData: DogAndActionData;
 }) => {
+	const {
+		dogs,
+		isTrashClicked,
+		isHeartClicked,
+		isEmptyHeartClicked,
+		isLoading,
+	} = dogAndActionData;
+
 	return dogs.map((dog: Dog) => (
 		<DogCard
 			dog={{
@@ -32,16 +29,19 @@ export const ShowSelectedDogsList = ({
 			onTrashIconClick={() => {
 				Requests.deleteDog({ dog: dog }).then(() => {
 					isTrashClicked({ isTrashClicked: true });
+					toast.success(`deleted ${dog.name} 😢`);
 				});
 			}}
 			onHeartClick={() => {
 				Requests.updateDog({ dog: dog }).then(() => {
 					isHeartClicked({ isHeartClicked: true });
+					toast.success(`unFavorited ${dog.name}`);
 				});
 			}}
 			onEmptyHeartClick={() => {
 				Requests.updateDog({ dog: dog }).then(() => {
 					isEmptyHeartClicked({ isEmptyHeartClicked: true });
+					toast.success(`favorited ${dog.name}`);
 				});
 			}}
 			isLoading={isLoading}

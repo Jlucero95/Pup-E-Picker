@@ -3,10 +3,10 @@ import { Component } from "react";
 import { Link } from "react-router-dom";
 import { ClassDogs } from "./ClassDogs";
 import { SectionSelector } from "../Shared/Selectors";
-// import { ClassCreateDogForm } from "./ClassCreateDogForm";
+import { CLassSectionState } from "./ClassTypes";
 
-export class ClassSection extends Component<Record<string, never>> {
-	state = {
+export class ClassSection extends Component<CLassSectionState> {
+	state: CLassSectionState = {
 		isFavActive: "",
 		isUnFavActive: "",
 		isCreateDogActive: "",

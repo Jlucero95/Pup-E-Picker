@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { dogPictures } from "../dog-pictures";
 import { Requests } from "../api";
 import toast from "react-hot-toast";
@@ -6,7 +6,11 @@ import toast from "react-hot-toast";
 // use this as your default selected image
 const defaultSelectedImage = dogPictures.BlueHeeler;
 
-export const FunctionalCreateDogForm = () => {
+export const FunctionalCreateDogForm = ({
+	isSubmitted,
+}: {
+	isSubmitted: Dispatch<SetStateAction<boolean>>;
+}) => {
 	const [dogName, setDogName] = useState("");
 	const [dogDescription, setDogDescription] = useState("");
 	const [dogPhoto, setDogPhoto] = useState(defaultSelectedImage);
@@ -25,6 +29,7 @@ export const FunctionalCreateDogForm = () => {
 				setSubmitDisabled(true);
 			})
 			.then(() => {
+				isSubmitted(submitDisabled);
 				toast.success(`created ${dogName}`);
 			})
 			.finally(() => {

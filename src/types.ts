@@ -24,3 +24,23 @@ export type FavAndUnFavData = {
 	favCount: (favCount: number) => void;
 	unFavCount: (unFavCount: number) => void;
 };
+
+export type FavAndDogData = {
+	fav: string;
+	unFav: string;
+	allDogs: Dog[];
+	favDogs: Dog[];
+	unFavDogs: Dog[];
+};
+
+export type DogAndActionData = {
+	dogs: Dog[];
+	isTrashClicked: ({ isTrashClicked }: { isTrashClicked: boolean }) => void;
+	isHeartClicked: ({ isHeartClicked }: { isHeartClicked: boolean }) => void;
+	isEmptyHeartClicked: ({
+		isEmptyHeartClicked,
+	}: {
+		isEmptyHeartClicked: boolean;
+	}) => void;
+	isLoading: boolean;
+};

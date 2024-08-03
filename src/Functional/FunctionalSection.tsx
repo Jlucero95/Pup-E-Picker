@@ -61,11 +61,13 @@ export const FunctionalSection = () => {
 			</div>
 			<div className="content-container">
 				<FunctionalDogs
-					isFavActive={isFavActive}
-					isUnFavActive={isUnFavActive}
-					isCreateActive={isCreateDogActive}
-					favDogCount={setFavDogCount}
-					unFavDogCount={setUnFavDogCount}
+					favAndUnFavData={{
+						isFavActive: isFavActive,
+						isUnFavActive: isUnFavActive,
+						isCreateActive: isCreateDogActive,
+						favCount: setFavDogCount,
+						unFavCount: setUnFavDogCount,
+					}}
 				/>
 			</div>
 		</section>
