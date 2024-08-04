@@ -19,7 +19,6 @@ export const FunctionalDogs = ({
 	const [isHeartClicked, setIsHeartClicked] = useState<boolean>(false);
 	const [isEmptyHeartClicked, setIsEmptyHeartClicked] =
 		useState<boolean>(false);
-	const [isSubmitLoading, setIsSubmitLoading] = useState<boolean>(false);
 	const [isCardLoading, setIsCardLoading] = useState<boolean>(false);
 
 	const { isFavActive, isUnFavActive, isCreateActive, favCount, unFavCount } =
@@ -48,7 +47,6 @@ export const FunctionalDogs = ({
 			})
 			.finally(() => {
 				setIsCardLoading(false);
-				setIsSubmitLoading(false);
 				favCount(favArr.length);
 				unFavCount(unFavArr.length);
 			});
@@ -59,10 +57,6 @@ export const FunctionalDogs = ({
 		setIsEmptyHeartClicked(false);
 		setIsHeartClicked(false);
 		setIsTrashClicked(false);
-		refetchDogs();
-	}
-
-	if (isSubmitLoading) {
 		refetchDogs();
 	}
 
@@ -80,8 +74,8 @@ export const FunctionalDogs = ({
 		<>
 			{isCreateActive === "active" ? (
 				<FunctionalCreateDogForm
-					isSubmitted={(isSubmitted) => {
-						setIsSubmitLoading(isSubmitted);
+					isSubmitted={() => {
+						refetchDogs();
 					}}
 				/>
 			) : (

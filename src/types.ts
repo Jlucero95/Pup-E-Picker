@@ -14,7 +14,6 @@ export type ClassDogsState = {
 	isHeartClicked: boolean;
 	isEmptyHeartClicked: boolean;
 	isCardLoading: boolean;
-	isCreateLoading: boolean;
 };
 
 export type FavAndUnFavData = {

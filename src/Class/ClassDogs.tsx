@@ -18,7 +18,6 @@ export class ClassDogs extends Component<
 		isHeartClicked: false,
 		isEmptyHeartClicked: false,
 		isCardLoading: false,
-		isCreateLoading: false,
 	};
 
 	componentDidMount() {
@@ -37,9 +36,6 @@ export class ClassDogs extends Component<
 				isHeartClicked: false,
 				isTrashClicked: false,
 			});
-			this.refetchDogs();
-		}
-		if (this.state.isCreateLoading) {
 			this.refetchDogs();
 		}
 	}
@@ -63,7 +59,7 @@ export class ClassDogs extends Component<
 			.finally(() => {
 				this.props.FavAndUnFavData.favCount(favArr.length);
 				this.props.FavAndUnFavData.unFavCount(unFavArr.length);
-				this.setState({ isCardLoading: false, isCreateLoading: false });
+				this.setState({ isCardLoading: false });
 			});
 	};
 
@@ -86,8 +82,8 @@ export class ClassDogs extends Component<
 			<>
 				{isCreateActive === "active" ? (
 					<ClassCreateDogForm
-						isLoading={(isLoading) => {
-							this.setState({ isCreateLoading: isLoading });
+						isLoading={() => {
+							this.refetchDogs();
 						}}
 					/>
 				) : (
