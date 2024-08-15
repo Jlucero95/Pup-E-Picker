@@ -5,20 +5,17 @@ import toast from "react-hot-toast";
 
 const defaultSelectedImage = dogPictures.BlueHeeler;
 
-export class ClassCreateDogForm extends Component<{
-	isLoading: (isLoading: boolean) => void;
-}> {
+export class ClassCreateDogForm extends Component {
 	state = {
 		dogName: "",
 		dogDescription: "",
 		dogPhoto: defaultSelectedImage,
-		isLoading: false,
 		submitDisabled: false,
-		isLoadingState: false,
+		isLoading: false,
 	};
 
 	postDog = () => {
-		this.setState({ submitDisabled: true, isLoadingState: true });
+		this.setState({ submitDisabled: true, isLoading: true });
 
 		return Requests.postDog({
 			dog: {
@@ -29,7 +26,6 @@ export class ClassCreateDogForm extends Component<{
 			},
 		})
 			.then(() => {
-				this.props.isLoading(this.state.isLoadingState);
 				toast.success(`created ${this.state.dogName}`);
 			})
 			.finally(() => {
@@ -44,7 +40,7 @@ export class ClassCreateDogForm extends Component<{
 			dogPhoto: defaultSelectedImage,
 			submitDisabled: false,
 			isSubmitted: false,
-			isLoadingState: false,
+			isLoading: false,
 		});
 	};
 

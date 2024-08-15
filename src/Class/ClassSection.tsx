@@ -1,18 +1,24 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 // you can use `ReactNode` to add a type to the children prop
 import { Component } from "react";
 import { Link } from "react-router-dom";
 import { ClassDogs } from "./ClassDogs";
-import { SectionSelector } from "../Shared/Selectors";
 import { CLassSectionState } from "./ClassTypes";
+import { ClassCreateDogForm } from "./ClassCreateDogForm";
+import { TabSelection } from "../Shared/TabSelection";
 
-export class ClassSection extends Component<CLassSectionState> {
+export type ActiveTab = "favourite" | "unFavourite" | "create" | "none";
+
+export class ClassSection extends Component {
 	state: CLassSectionState = {
-		isFavActive: "",
-		isUnFavActive: "",
-		isCreateDogActive: "",
+		activeTab: "none",
 		favCount: 0,
 		unFavCount: 0,
 		isLoading: false,
+	};
+
+	handleTabClick = (tab: ActiveTab) => {
+		this.setState({ activeTab: tab });
 	};
 
 	handleFavCount = (favCount: number) => {
@@ -23,13 +29,7 @@ export class ClassSection extends Component<CLassSectionState> {
 	};
 
 	render() {
-		const {
-			isCreateDogActive,
-			isFavActive,
-			isUnFavActive,
-			favCount,
-			unFavCount,
-		} = this.state;
+		const { favCount, unFavCount, activeTab } = this.state;
 
 		return (
 			<section id="main-section">
@@ -42,69 +42,27 @@ export class ClassSection extends Component<CLassSectionState> {
 					>
 						Change to Functional
 					</Link>
-
-					<div className="selectors">
-						{/* This should display the favorited count */}
-						<SectionSelector
-							section="favorited"
-							activeClass={isFavActive}
-							count={favCount}
-							onClick={() => {
-								this.setState({
-									isFavActive: "active",
-									isUnFavActive: "",
-									isCreateDogActive: "",
-								});
-								if (isFavActive === "active") {
-									this.setState({ isFavActive: "" });
-								}
-							}}
-						/>
-
-						{/* This should display the unfavorited count */}
-						<SectionSelector
-							section="unfavorited"
-							activeClass={isUnFavActive}
-							count={unFavCount}
-							onClick={() => {
-								this.setState({
-									isFavActive: "",
-									isUnFavActive: "active",
-									isCreateDogActive: "",
-								});
-								if (isUnFavActive === "active") {
-									this.setState({ isUnFavActive: "" });
-								}
-							}}
-						/>
-						<div
-							className={`selector ${isCreateDogActive}`}
-							onClick={() => {
-								this.setState({
-									isFavActive: "",
-									isUnFavActive: "",
-									isCreateDogActive: "active",
-								});
-								if (isCreateDogActive === "active")
-									this.setState({ isCreateDogActive: "" });
-							}}
-						>
-							create dog
-						</div>
-					</div>
+					<TabSelection
+						activeTab={activeTab}
+						favCount={favCount}
+						onTabClick={this.handleTabClick}
+						unFavCount={unFavCount}
+					/>
 				</div>
 				<div className="content-container">
-					{
+					{activeTab === "create" ? (
+						<ClassCreateDogForm />
+					) : activeTab === "none" ||
+					  activeTab === "favourite" ||
+					  activeTab === "unFavourite" ? (
 						<ClassDogs
 							FavAndUnFavData={{
-								isFavActive: isFavActive,
-								isUnFavActive: isUnFavActive,
-								isCreateActive: isCreateDogActive,
+								activeTab: activeTab,
 								favCount: this.handleFavCount,
 								unFavCount: this.handleUnFavCount,
 							}}
 						/>
-					}
+					) : null}
 				</div>
 			</section>
 		);

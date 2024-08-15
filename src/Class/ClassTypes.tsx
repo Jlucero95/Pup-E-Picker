@@ -1,7 +1,7 @@
+import { ActiveTab } from "./ClassSection";
+
 export type CLassSectionState = {
-	isFavActive: string;
-	isUnFavActive: string;
-	isCreateDogActive: string;
+	activeTab: ActiveTab;
 	favCount: number;
 	unFavCount: number;
 	isLoading: boolean;

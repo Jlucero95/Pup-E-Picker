@@ -3,7 +3,7 @@ import { Requests } from "../api";
 import { Dog, DogAndActionData } from "../types";
 import toast from "react-hot-toast";
 
-export const ShowSelectedDogsList = ({
+export const showSelectedDogsList = ({
 	dogAndActionData,
 }: {
 	dogAndActionData: DogAndActionData;
@@ -35,7 +35,7 @@ export const ShowSelectedDogsList = ({
 			onHeartClick={() => {
 				Requests.updateDog({ dog: dog }).then(() => {
 					isHeartClicked({ isHeartClicked: true });
-					toast.success(`unFavorited ${dog.name}`);
+					toast.success(`un-favorited ${dog.name}`);
 				});
 			}}
 			onEmptyHeartClick={() => {

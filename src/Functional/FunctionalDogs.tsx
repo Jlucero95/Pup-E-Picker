@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 import { Dog, FavAndUnFavData } from "../types";
 import { Requests } from "../api";
-import { ShowSelectedDogsList } from "../Shared/ShowSelectedDogsList";
-import { SelectedDogs } from "../Shared/SelectedDogs";
+import { showSelectedDogsList } from "../Shared/ShowSelectedDogsList";
+import { getSelectedDogs } from "../Shared/GetSelectedDogs";
 import { FunctionalCreateDogForm } from "./FunctionalCreateDogForm";
 
 // Right now these dogs are constant, but in reality we should be getting these from our server✅
@@ -15,10 +15,7 @@ export const FunctionalDogs = ({
 	const [allDogs, setAllDogs] = useState<Dog[]>([]);
 	const [favDogs, setFavDogs] = useState<Dog[]>([]);
 	const [unFavDogs, setUnFavDogs] = useState<Dog[]>([]);
-	const [isTrashClicked, setIsTrashClicked] = useState<boolean>(false);
-	const [isHeartClicked, setIsHeartClicked] = useState<boolean>(false);
-	const [isEmptyHeartClicked, setIsEmptyHeartClicked] =
-		useState<boolean>(false);
+	useState<boolean>(false);
 	const [isCardLoading, setIsCardLoading] = useState<boolean>(false);
 
 	const { isFavActive, isUnFavActive, isCreateActive, favCount, unFavCount } =
@@ -52,15 +49,7 @@ export const FunctionalDogs = ({
 			});
 	};
 
-	if (isHeartClicked || isTrashClicked || isEmptyHeartClicked) {
-		setIsCardLoading(true);
-		setIsEmptyHeartClicked(false);
-		setIsHeartClicked(false);
-		setIsTrashClicked(false);
-		refetchDogs();
-	}
-
-	const selectedDogs = SelectedDogs({
+	const selectedDogs = getSelectedDogs({
 		favAndDogData: {
 			fav: isFavActive,
 			unFav: isUnFavActive,
@@ -75,21 +64,25 @@ export const FunctionalDogs = ({
 			{isCreateActive === "active" ? (
 				<FunctionalCreateDogForm
 					isSubmitted={() => {
+						setIsCardLoading(true);
 						refetchDogs();
 					}}
 				/>
 			) : (
-				ShowSelectedDogsList({
+				showSelectedDogsList({
 					dogAndActionData: {
 						dogs: selectedDogs,
-						isTrashClicked({ isTrashClicked }) {
-							setIsTrashClicked(isTrashClicked);
+						isTrashClicked() {
+							setIsCardLoading(true);
+							refetchDogs();
 						},
-						isHeartClicked({ isHeartClicked }) {
-							setIsHeartClicked(isHeartClicked);
+						isHeartClicked() {
+							setIsCardLoading(true);
+							refetchDogs();
 						},
-						isEmptyHeartClicked({ isEmptyHeartClicked }) {
-							setIsEmptyHeartClicked(isEmptyHeartClicked);
+						isEmptyHeartClicked() {
+							setIsCardLoading(true);
+							refetchDogs();
 						},
 
 						isLoading: isCardLoading,

@@ -1,10 +1,9 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { Component } from "react";
 import { Requests } from "../api";
-import { ShowSelectedDogsList } from "../Shared/ShowSelectedDogsList";
+import { showSelectedDogsList } from "../Shared/ShowSelectedDogsList";
 import { ClassDogsState, Dog, FavAndUnFavData } from "../types";
-import { ClassCreateDogForm } from "./ClassCreateDogForm";
-import { SelectedDogs } from "../Shared/SelectedDogs";
+import { getSelectedDogs } from "../Shared/GetSelectedDogs";
 
 export class ClassDogs extends Component<
 	{ FavAndUnFavData: FavAndUnFavData },
@@ -14,30 +13,11 @@ export class ClassDogs extends Component<
 		allDogs: [],
 		favDogs: [],
 		unFavDogs: [],
-		isTrashClicked: false,
-		isHeartClicked: false,
-		isEmptyHeartClicked: false,
 		isCardLoading: false,
 	};
 
 	componentDidMount() {
 		this.refetchDogs();
-	}
-
-	componentDidUpdate() {
-		if (
-			this.state.isEmptyHeartClicked ||
-			this.state.isHeartClicked ||
-			this.state.isTrashClicked
-		) {
-			this.setState({
-				isCardLoading: true,
-				isEmptyHeartClicked: false,
-				isHeartClicked: false,
-				isTrashClicked: false,
-			});
-			this.refetchDogs();
-		}
 	}
 
 	refetchDogs = () => {
@@ -65,13 +45,12 @@ export class ClassDogs extends Component<
 
 	render() {
 		const { allDogs, favDogs, unFavDogs, isCardLoading } = this.state;
-		const { isFavActive, isUnFavActive, isCreateActive } =
-			this.props.FavAndUnFavData;
 
-		const selectedDogs = SelectedDogs({
+		const { activeTab } = this.props.FavAndUnFavData;
+
+		const selectedDogs = getSelectedDogs({
 			favAndDogData: {
-				fav: isFavActive,
-				unFav: isUnFavActive,
+				activeTab,
 				allDogs,
 				favDogs,
 				unFavDogs,
@@ -80,30 +59,24 @@ export class ClassDogs extends Component<
 
 		return (
 			<>
-				{isCreateActive === "active" ? (
-					<ClassCreateDogForm
-						isLoading={() => {
+				{showSelectedDogsList({
+					dogAndActionData: {
+						dogs: selectedDogs,
+						isTrashClicked: () => {
+							this.setState({ isCardLoading: true });
 							this.refetchDogs();
-						}}
-					/>
-				) : (
-					ShowSelectedDogsList({
-						dogAndActionData: {
-							dogs: selectedDogs,
-							isTrashClicked: (isTrashClicked) => {
-								if (isTrashClicked) this.setState({ isTrashClicked: true });
-							},
-							isEmptyHeartClicked: (isEmptyHeartClicked) => {
-								if (isEmptyHeartClicked)
-									this.setState({ isEmptyHeartClicked: true });
-							},
-							isHeartClicked: (isHeartClicked) => {
-								if (isHeartClicked) this.setState({ isHeartClicked: true });
-							},
-							isLoading: isCardLoading,
 						},
-					})
-				)}
+						isEmptyHeartClicked: () => {
+							this.setState({ isCardLoading: true });
+							this.refetchDogs();
+						},
+						isHeartClicked: () => {
+							this.setState({ isCardLoading: true });
+							this.refetchDogs();
+						},
+						isLoading: isCardLoading,
+					},
+				})}
 			</>
 		);
 	}

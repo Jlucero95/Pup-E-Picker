@@ -1,3 +1,5 @@
+import { ActiveTab } from "./Class/ClassSection";
+
 export type Dog = {
 	id: string;
 	image: string;
@@ -10,23 +12,17 @@ export type ClassDogsState = {
 	allDogs: Dog[];
 	favDogs: Dog[];
 	unFavDogs: Dog[];
-	isTrashClicked: boolean;
-	isHeartClicked: boolean;
-	isEmptyHeartClicked: boolean;
 	isCardLoading: boolean;
 };
 
 export type FavAndUnFavData = {
-	isFavActive: string;
-	isUnFavActive: string;
-	isCreateActive: string;
+	activeTab: ActiveTab;
 	favCount: (favCount: number) => void;
 	unFavCount: (unFavCount: number) => void;
 };
 
 export type FavAndDogData = {
-	fav: string;
-	unFav: string;
+	activeTab: ActiveTab;
 	allDogs: Dog[];
 	favDogs: Dog[];
 	unFavDogs: Dog[];
