@@ -1,5 +1,6 @@
-import { ActiveTab } from "../Class/ClassSection";
 import { SectionSelector } from "./Selectors";
+
+export type ActiveTab = "favourite" | "unFavourite" | "create" | "none";
 
 export type HeaderProps = {
 	activeTab: ActiveTab;
@@ -16,8 +17,6 @@ export const TabSelection = ({
 }: HeaderProps) => {
 	return (
 		<div className="selectors">
-			{/* This should display the favorited count */}
-
 			<SectionSelector
 				activeClass={`${activeTab === "favourite" ? "active" : ""}`}
 				count={favCount}
@@ -26,8 +25,6 @@ export const TabSelection = ({
 				}
 				section="favorited"
 			/>
-
-			{/* This should display the unfavorited count */}
 
 			<SectionSelector
 				section="unfavorited"

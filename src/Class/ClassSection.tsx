@@ -1,15 +1,21 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 // you can use `ReactNode` to add a type to the children prop
-import { Component } from "react";
+import { Component, ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { ClassDogs } from "./ClassDogs";
 import { CLassSectionState } from "./ClassTypes";
-import { ClassCreateDogForm } from "./ClassCreateDogForm";
-import { TabSelection } from "../Shared/TabSelection";
+import { ActiveTab, TabSelection } from "../Shared/TabSelection";
 
-export type ActiveTab = "favourite" | "unFavourite" | "create" | "none";
+type ClassSectionProps = {
+	children: ReactNode;
+	activeTab: (activeTab: ActiveTab) => void;
+	favCount: number;
+	unFavCount: number;
+};
 
-export class ClassSection extends Component {
+export class ClassSection extends Component<
+	ClassSectionProps,
+	CLassSectionState
+> {
 	state: CLassSectionState = {
 		activeTab: "none",
 		favCount: 0,
@@ -19,17 +25,16 @@ export class ClassSection extends Component {
 
 	handleTabClick = (tab: ActiveTab) => {
 		this.setState({ activeTab: tab });
-	};
-
-	handleFavCount = (favCount: number) => {
-		this.setState({ favCount: favCount });
-	};
-	handleUnFavCount = (unFavCount: number) => {
-		this.setState({ unFavCount: unFavCount });
+		this.props.activeTab(tab);
+		this.setState({
+			favCount: this.props.favCount,
+			unFavCount: this.props.unFavCount,
+		});
 	};
 
 	render() {
 		const { favCount, unFavCount, activeTab } = this.state;
+		const { children } = this.props;
 
 		return (
 			<section id="main-section">
@@ -49,22 +54,9 @@ export class ClassSection extends Component {
 						unFavCount={unFavCount}
 					/>
 				</div>
-				<div className="content-container">
-					{activeTab === "create" ? (
-						<ClassCreateDogForm />
-					) : activeTab === "none" ||
-					  activeTab === "favourite" ||
-					  activeTab === "unFavourite" ? (
-						<ClassDogs
-							FavAndUnFavData={{
-								activeTab: activeTab,
-								favCount: this.handleFavCount,
-								unFavCount: this.handleUnFavCount,
-							}}
-						/>
-					) : null}
-				</div>
+				<div className="content-container">{children}</div>
 			</section>
 		);
 	}
 }
+export type { ActiveTab };
